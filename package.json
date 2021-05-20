@@ -1,0 +1,43 @@
+{
+  "name": "weather-app",
+  "version": "1.0.0",
+  "description": "My React Weather app using Google Maps and NASA API's",
+  "main": "index.tsx",
+  "browserslist": [
+    "> 0.2%",
+    "not dead"
+  ],
+  "scripts": {
+    "dev": "parcel serve ./src/index.html",
+    "build": "parcel build ./src/index.html",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SergZu/Weather-App.git"
+  },
+  "keywords": [
+    "Weather-app",
+    "React",
+    "Google Maps API",
+    "NASA API"
+  ],
+  "author": "SergZu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SergZu/Weather-App/issues"
+  },
+  "homepage": "https://github.com/SergZu/Weather-App#readme",
+  "dependencies": {
+    "google-map-react": "^2.1.9",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/google-map-react": "^2.1.0",
+    "@types/react": "^17.0.6",
+    "@types/react-dom": "^17.0.5",
+    "parcel": "^2.0.0-beta.3.1",
+    "typescript": "^4.2.4"
+  }
+}
