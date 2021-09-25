@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { getStorageData } from '../utils/getStorage'
 
-export type LocationProps = {
+export interface LocationProps {
     children : React.ReactNode
 }
 
