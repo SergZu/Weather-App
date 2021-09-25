@@ -15,3 +15,5 @@ node_modules
 .parcel-cache
 # Prod Bundle
 dist
+# Mock API db
+db.json
