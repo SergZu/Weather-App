@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "parcel serve ./src/index.html",
     "build": "parcel build ./src/index.html",
+    "server": "json-server --watch db.json --port 3004",
     "test": "test"
   },
   "repository": {
@@ -28,7 +29,8 @@
     "url": "https://github.com/SergZu/Weather-App/issues"
   },
   "homepage": "https://github.com/SergZu/Weather-App#readme",
-  "dependencies": {
+  "dependencies": { 
+    "axios": "^0.23.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
