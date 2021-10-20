@@ -1,12 +1,17 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { getStorageData } from '../utils/getStorage'
 
 export interface LocationProps {
     children : React.ReactNode
 }
 
+export type Location = {
+    name : string;
+    id : number
+}
+
 export type LocationContext = {
-    locations : string[]
+    locations : Location[]
 }
 
 const Context = React.createContext<LocationContext>({locations : []})
@@ -16,7 +21,7 @@ export const useLocation = () => {
 }
 
 const LocationsContext = ({children} : LocationProps) => {
-    const data = getStorageData(); 
+    const [ data, setData] = useState(  getStorageData() );
     const contextValue = {locations : data.locations};
     return (
         <Context.Provider value={contextValue}>

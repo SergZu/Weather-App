@@ -35,7 +35,7 @@ export interface WeatherContextProps {
 
 const Context = React.createContext<WeatherApiResponse | null>(null);
 
-export const useWeatherData  = useContext(Context);
+export const useWeatherData  = () => useContext(Context);
 
 const WeatherContext = ({children} : WeatherContextProps) => {
 

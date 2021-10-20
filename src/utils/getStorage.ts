@@ -8,13 +8,13 @@ export const setStorageData = function(data : LocationContext) : void {
 
 export const getStorageData = function() : LocationContext {
     const storageData = localStorage.getItem('__WeatherUserLocations');
-    console.log('get')
+    console.log(storageData)
     if (storageData === null) {
         setStorageData({
-            locations : ['Mars']
-        })
+            locations : [{name : 'Mars', id : 1}]
+        });
         return {
-            locations : ['Mars']
+            locations : [{name : 'Mars', id : 1}]
         }
     }
     return JSON.parse(storageData)

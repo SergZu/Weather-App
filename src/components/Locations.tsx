@@ -1,20 +1,16 @@
-import React, { useState } from 'react'
-import { setStorageData } from '../utils/getStorage';
+import React, { useEffect, useState } from 'react'
+import { getStorageData, setStorageData } from '../utils/getStorage';
 import { useLocation } from './LocationsContext'
 
 const Locations = () => {
-    const [data, setData] = useState(() => useLocation());
+    const data = useLocation();
+
+    console.log(data)
+    const locationsLayout = data.locations.map((elem) => (<h4 key={elem.id}>{elem.name}</h4>));
+        
     return (
         <div>
-           {data.locations.map((elem) => (<h4>{elem}</h4>))}
-           <button onClick={ (e) => {
-               const newData = { 
-                    locations : [...data.locations, 'Omsk'] 
-                    }; 
-                setStorageData(newData);
-                setData(newData);
-                }       
-            } >Add</button>   
+         {locationsLayout}    
         </div>
     )
 }
