@@ -8,13 +8,13 @@ import WeatherContext from './WeatherContext'
 const App = () => {
     return (
         <LocationsContext>
-            //<WeatherContext>
+            <WeatherContext>
                 <div>
                     <Locations />
                     <Weather />
                     <Forecast />
                 </div>
-           // </WeatherContext>
+           </WeatherContext>
         </LocationsContext>
     )
 }
