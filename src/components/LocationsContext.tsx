@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { getStorageData, setStorageData } from '../utils/getStorage'
+import { getStorageData, setStorageData } from '../utils/useStorage'
 
 export interface LocationProps {
     children : React.ReactNode
@@ -16,8 +16,8 @@ export type LocationData = {
 
 export type LocationContext = {
     locations : Location[],
-    addData : (name : Location) => void,
-    deleteData : (name : Location) => void
+    addData : (name : string) => void,
+    deleteData : (name : string) => void
 }
 
 const Context = React.createContext<LocationContext|null>(null)
@@ -28,18 +28,29 @@ export const useLocation = () => {
 
 const LocationsContext = ({children} : LocationProps) => {
     const [ data, setData] = useState<LocationData>(  getStorageData() );
+    const [ lastID, incLastID] = useState( [...data.locations].sort((a,b) => a.id - b.id )[data.locations.length - 1].id );
 
-    const addLocation = (location : Location) : void => {
+    const getNewID = () => {
+        const newId = lastID;
+        incLastID((n) => n+1);
+        return newId
+    }
+
+    const addLocation = (locationName : string) : void => {
+        const newValue : Location = {
+            name : locationName,
+            id : getNewID()
+        };
         const newData = {
-            locations : [...data.locations, location]
+            locations : [...data.locations, newValue]
         };
         setData(newData);
         setStorageData(newData);
     }
 
-    const deleteLocation = (location : Location) : void => {
+    const deleteLocation = (locationName : string) : void => {
         const newData = {
-            locations : data.locations.filter((item) => item.name !== location.name)
+            locations : data.locations.filter((item) => item.name !== locationName)
         };
         setData(newData);
         setStorageData(newData);
