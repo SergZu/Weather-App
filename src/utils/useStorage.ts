@@ -8,7 +8,6 @@ export const setStorageData = function(data : LocationData) : void {
 
 export const getStorageData = function() : LocationData {
     const storageData = localStorage.getItem('__WeatherUserLocations');
-    console.log(storageData);
     const initValue : LocationData = {
         locations : [{name : 'Mars', id : 1}]
     }
