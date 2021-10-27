@@ -1,16 +1,15 @@
-import { LocationData } from "../components/LocationsContext"
+import { Location } from "../components/Locations"
 
 
-export const setStorageData = function(data : LocationData) : void {
+export const setStorageData = function(data : Location[]) : void {
     const storageData = JSON.stringify(data);
     localStorage.setItem('__WeatherUserLocations', storageData);
 }
 
-export const getStorageData = function() : LocationData {
+export const getStorageData = function() : Location[] {
     const storageData = localStorage.getItem('__WeatherUserLocations');
-    const initValue : LocationData = {
-        locations : [{name : 'Mars', id : 1}]
-    }
+    const initValue : Location[] = [{name : 'Mars', lat : '0', lon : '0', notEarth : true}]
+    
     if (storageData === null) {
         setStorageData(initValue);
         return initValue
