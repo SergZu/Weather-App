@@ -2,15 +2,31 @@ import React, { useEffect, useState } from 'react'
 import WeatherService from '../Api/WeatherService'
 import useLoading from '../hooks/useLoading'
 import Spinner from '../UI/spinner/Spinner'
-import { getStorageData } from '../utils/useStorage'
-import Forecast from './Forecast'
-import Locations from './Locations'
+import { getStorageData, setStorageData } from '../utils/useStorage'
+import Dashboard from './Dashboard'
 import Weather from './Weather'
+import classes from './App.module.css'
+import Alert from '../UI/Alert/Alert'
 
+//ToDo
+//Create main layout and styles
+//Create dropbox with text UI component
+//Create input UI component
+//Create addLocation UI button
+//Create modal component
+//Create components forecast, locations, weather
+//Refactor - create alert component for errors
+
+export type Location = {
+    name : string;
+    lat : string;
+    lon : string;
+    notEarth? : boolean
+}
 
 const App = () => {
     const [weatherData, setWeatherData] = useState({});
-    const [locations, setLocationsList] = useState([]);
+    const [locations, setLocationsList] = useState<Location[]>([]);
 
     const [fetchWeather, isWeatherLoading, errorWeather] = useLoading(async () => {
         const weather = await WeatherService.getAllData();
@@ -28,36 +44,27 @@ const App = () => {
         fetchWeather();
     }, []);
 
-    /*const addLocation = (location : Location) : void => {
-        const newData = [...data, location];
-        setData(newData);
+    const addLocation = (location : Location) : void => {
+        const newData = [...locations, location];
+        setLocationsList(newData);
         setStorageData(newData);
     }
 
     const deleteLocation = (locationName : string) : void => {
-        const newData = data.filter((item) => item.name !== locationName);
-        setData(newData);
+        const newData = locations.filter((item) => item.name !== locationName);
+        setLocationsList(newData);
         setStorageData(newData);
 
-        export type Location = {
-    name : string;
-    lat : string;
-    lon : string;
-    notEarth? : boolean
-}
-
-export type LocationData = {
-    locations : Location[]
-}
-    }*/
+    }
 
     return (
-                <div>
-                    {errorLoc ? <h3 style={{color : 'red'}}>{errorLoc}</h3> : null}
-                    {isLocationsLoading ? <Spinner /> : <Locations list={locations} />}
-                    {errorWeather ? <h3 style={{color : 'red'}}>{errorWeather}</h3> : null}
-                    {isWeatherLoading ? <Spinner /> : <Weather /> }
-                    <Forecast />
+                <div className={classes.appContainer}>
+                    <main className={classes.app}>
+                        {errorLoc ? (<Alert text={errorLoc} />) : null}
+                        {isLocationsLoading ? <Spinner /> : <Dashboard list={locations} addLocation={addLocation} deleteLocation={deleteLocation} />}
+                        {errorWeather ? (<Alert text={errorWeather} />) : null}
+                        {isWeatherLoading ? <Spinner /> : <Weather /> }
+                    </main>
                 </div>
     )
 }

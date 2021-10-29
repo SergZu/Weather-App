@@ -15,7 +15,7 @@
 .spinnerText {
     margin: auto;
     gap: 1rem;
-    animation: rotating 3s linear infinite reverse;
+    animation: rotating 5s linear infinite reverse;
 }
 
 .loading {
@@ -23,5 +23,5 @@
     height: 80px;
     border: 3px dashed darkblue;
     border-radius: 50%;
-    animation: rotating 3s linear infinite;
+    animation: rotating 5s linear infinite;
 }
