@@ -1,0 +1,33 @@
+.appContainer {
+    width: 100%;
+    min-height: 90vh;
+    background: linear-gradient(135deg, #0b688d 0%, #ebb654 50%, #0b688d 100%);
+    margin: 20px auto;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+}
+
+.app {
+    width: 90%;
+    margin: auto;
+    min-height: 80vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+@media screen and (min-width: 800px) {
+    .appContainer {
+        width: 90%;
+    }     
+}
+
+@media screen and (min-width: 1200px) {
+    .appContainer {
+        width: 80%;
+    }     
+}

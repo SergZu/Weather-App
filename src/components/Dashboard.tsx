@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 
 export type Location = {
     name : string;
@@ -9,10 +9,12 @@ export type Location = {
 
 
 interface locationProps {
-    list : Location[]
+    list : Location[],
+    addLocation : (location : Location) => void,
+    deleteLocation : (locationName : string) => void
 }
 
-const Locations = ({list}) => {
+const Dashboard = ({list, addLocation, deleteLocation} : locationProps) => {
 
    const locationsLayout = list ? list.map((elem) => (<h4 key={`${elem.name + elem.lon + elem.lat}`}>{elem.name}</h4>)) : null;
     
@@ -24,4 +26,4 @@ const Locations = ({list}) => {
     )
 }
 
-export default Locations
+export default Dashboard

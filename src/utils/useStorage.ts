@@ -1,4 +1,4 @@
-import { Location } from "../components/Locations"
+import { Location } from "../components/Dashboard"
 
 
 export const setStorageData = function(data : Location[]) : void {
