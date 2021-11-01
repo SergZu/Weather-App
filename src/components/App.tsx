@@ -4,7 +4,7 @@ import useLoading from '../hooks/useLoading'
 import Spinner from '../UI/spinner/Spinner'
 import { getStorageData, setStorageData } from '../utils/useStorage'
 import Dashboard from './Dashboard'
-import Weather from './Weather'
+import Weather, { WeatherApiResponse } from './Weather'
 import classes from './App.module.css'
 import Alert from '../UI/Alert/Alert'
 
@@ -24,19 +24,23 @@ export type Location = {
     notEarth? : boolean
 }
 
+export type WeatherDataObject = {
+    [cityName : string] : WeatherApiResponse
+} 
+
 const App = () => {
-    const [weatherData, setWeatherData] = useState({});
+    const [weatherData, setWeatherData] = useState<WeatherDataObject>({});
     const [locations, setLocationsList] = useState<Location[]>([]);
 
     const [fetchWeather, isWeatherLoading, errorWeather] = useLoading(async () => {
-        const weather = await WeatherService.getAllData();
+        const weather : WeatherDataObject = await WeatherService.getAllData() as WeatherDataObject;
         setWeatherData( weather );
-    })
+    });
 
     const [fetchLocation, isLocationsLoading, errorLoc] = useLoading( async () => {
         const data = getStorageData();
         setLocationsList(data);
-    })
+    });
     
 
     useEffect(() => {
