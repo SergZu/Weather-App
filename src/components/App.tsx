@@ -31,6 +31,11 @@ export type WeatherDataObject = {
 const App = () => {
     const [weatherData, setWeatherData] = useState<WeatherDataObject>({});
     const [locations, setLocationsList] = useState<Location[]>([]);
+    const [currentLocation, setCurrentLocation] = useState('');
+
+    const computeCurrentLocation = () => {
+        if (currentLocation.length === 0) setCurrentLocation('Mars')
+    }
 
     const [fetchWeather, isWeatherLoading, errorWeather] = useLoading(async () => {
         const weather : WeatherDataObject = await WeatherService.getAllData() as WeatherDataObject;
@@ -39,6 +44,7 @@ const App = () => {
 
     const [fetchLocation, isLocationsLoading, errorLoc] = useLoading( async () => {
         const data = getStorageData();
+        computeCurrentLocation();
         setLocationsList(data);
     });
     
@@ -67,7 +73,7 @@ const App = () => {
                         {errorLoc ? (<Alert text={errorLoc} />) : null}
                         {isLocationsLoading ? <Spinner /> : <Dashboard list={locations} addLocation={addLocation} deleteLocation={deleteLocation} />}
                         {errorWeather ? (<Alert text={errorWeather} />) : null}
-                        {isWeatherLoading ? <Spinner /> : <Weather /> }
+                        {isWeatherLoading || currentLocation === '' || weatherData?.Mars === null ? <Spinner /> : <Weather location={currentLocation} data={weatherData[currentLocation]} /> }
                     </main>
                 </div>
     )

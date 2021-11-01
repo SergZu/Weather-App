@@ -1,4 +1,6 @@
 import React from 'react'
+import WeatherDisplay, { DisplayProps } from './WeatherDisplay'
+import WeatherForecast from './WeatherForecast'
 
 export type WeatherType = {
     dt : number,
@@ -29,10 +31,26 @@ export type WeatherApiResponse = {
     }
 }
 
-const Weather = () => {
+export interface WeatherProps {
+    data : WeatherApiResponse;
+    location : string
+}
+
+
+
+const Weather = ({location, data} : WeatherProps) => {
+    console.log(data, location);
+    const displayData = {
+        temp : data.list[0].main.temp,
+        weather : data.list[0].weather.main,
+        wind : data.list[0].wind,
+        location 
+    }
+    const forecastData = data.list.slice(1); 
     return (
         <div>
-            <h2>Weather is great</h2>
+           <WeatherDisplay data={displayData} />
+            <WeatherForecast data={forecastData} />
         </div>
     )
 }
