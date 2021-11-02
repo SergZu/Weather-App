@@ -1,0 +1,33 @@
+.display {
+    display: flex;
+    margin: 0 auto;
+    margin-bottom: 5rem;
+    margin-top: auto;
+    color: #aaa;
+    gap: 1rem;
+    align-items: center;
+}
+
+.displayTemp {
+    font-size: 5rem;
+    font-weight: bold;
+}
+
+.displayInfoBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.displayLocation {
+    font-size: 3rem;
+}
+
+.displayWeather {
+    font-size: 1.5rem;
+}
+
+.displayWind {
+    font-size: 1.5rem;
+}

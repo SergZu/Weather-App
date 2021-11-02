@@ -1,0 +1,5 @@
+.weatherBlock {
+    display: grid;
+    gap: 1rem;
+    grid-template-rows: 3fr 1fr;
+}

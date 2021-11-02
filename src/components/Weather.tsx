@@ -1,6 +1,7 @@
 import React from 'react'
-import WeatherDisplay, { DisplayProps } from './WeatherDisplay'
+import WeatherDisplay from './WeatherDisplay'
 import WeatherForecast from './WeatherForecast'
+import classes from './Weather.module.css'
 
 export type WeatherType = {
     dt : number,
@@ -48,7 +49,7 @@ const Weather = ({location, data} : WeatherProps) => {
     }
     const forecastData = data.list.slice(1); 
     return (
-        <div>
+        <div className={classes.weatherBlock}>
            <WeatherDisplay data={displayData} />
             <WeatherForecast data={forecastData} />
         </div>
