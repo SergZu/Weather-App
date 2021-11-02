@@ -1,0 +1,5 @@
+.forecast {
+    display: flex;
+    justify-content: space-around;
+    color: #ccc;
+}
