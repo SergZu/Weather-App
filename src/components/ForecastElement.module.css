@@ -1,0 +1,11 @@
+.forecastElement {
+    display: flex;
+    width: 20%;
+    background-color: rgba(0, 0, 0, 0.3);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid slategray;
+    border-radius: 5px;
+}
