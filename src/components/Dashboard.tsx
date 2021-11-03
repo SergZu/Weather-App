@@ -1,29 +1,26 @@
 import React, { ReactNode, useEffect, useMemo, useState } from 'react'
+import { Location } from './App'
+import classes from './Dashboard.module.css'
+import LocationsMenu from './LocationsMenu'
+import { WeatherApiResponse } from './Weather'
+import WeatherDetails from './WeatherDetails'
 
-export type Location = {
-    name : string;
-    lat : string;
-    lon : string;
-    notEarth? : boolean
-}
-
-
-interface locationProps {
+export interface locationProps {
     list : Location[],
     addLocation : (location : Location) => void,
-    deleteLocation : (locationName : string) => void
+    deleteLocation : (locationName : string) => void,
+    weatherData : WeatherApiResponse
 }
 
-const Dashboard = ({list, addLocation, deleteLocation} : locationProps) => {
+const Dashboard = ({list, addLocation, deleteLocation, weatherData} : locationProps) => {
 
-    const createLocationsLayout = useMemo(() => (list : Location[]) =>
-        list?.map((elem) => (<h4 key={`${elem.name + elem.lon + elem.lat}`}>{elem.name}</h4>)), [list]) 
-   
+    
     
         
     return (
-        <div>
-         {createLocationsLayout(list)}   
+        <div className={classes.dashboardContainer}>
+            <LocationsMenu list={list} addLocation={addLocation} deleteLocation={deleteLocation} />
+            <WeatherDetails weatherData={weatherData} />  
         </div>
     )
 }
