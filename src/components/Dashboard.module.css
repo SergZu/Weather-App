@@ -1,0 +1,7 @@
+.dashboardContainer {
+    display: grid;
+    grid-template-rows: 2fr 3fr;
+    padding: 10px 15px;
+    background-color: rgb(57, 7, 77);
+    opacity: 0.5;
+}
