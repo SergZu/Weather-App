@@ -1,6 +1,6 @@
 .appContainer {
     width: 100%;
-    min-height: 60vh;
+    min-height: 90vh;
     background-color: #e6a121 ;
     margin: 5px auto;
     border: 1px solid transparent;
@@ -15,9 +15,9 @@
 }
 
 .app {
-    width: 90%;
-    margin: 2rem auto;
-    min-height: 80vh;
+    width: 100%;
+    margin: auto;
+    min-height: 90vh;
     display: grid;
     gap: 1rem;
     grid-template-columns: 3fr 1fr;
