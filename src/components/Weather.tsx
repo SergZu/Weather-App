@@ -40,7 +40,6 @@ export interface WeatherProps {
 
 
 const Weather = ({location, data} : WeatherProps) => {
-    console.log(data, location);
     const displayData = {
         temp : data.list[0].main.temp,
         weather : data.list[0].weather.main,

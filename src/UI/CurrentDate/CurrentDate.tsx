@@ -1,13 +1,6 @@
 import React from 'react'
 import classes from './CurrentDate.module.css'
-
-export const days = [
-    'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
-];
-
-export const months = [
-    'January', 'February', 'March', 'April', 'May', 'June', 'Jule', 'August', 'September', 'October', 'November', 'December'
-];
+import { days, months } from '../../constants'
 
 const CurrentDate = () => {
     const now = new Date();
