@@ -81,7 +81,7 @@ const App = () => {
                         }                        
                         {isLocationsLoading ? <Spinner /> : 
                         <Suspense fallback={<Spinner />}>
-                            <DashboardLazy list={locations} addLocation={addLocation} deleteLocation={deleteLocation} />
+                            <DashboardLazy list={locations} addLocation={addLocation} deleteLocation={deleteLocation} weatherData={weatherData[currentLocation]} />
                         </Suspense>
                         }                        
                     </main>
