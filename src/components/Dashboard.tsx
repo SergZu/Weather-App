@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useMemo, useState } from 'react'
 
 export type Location = {
     name : string;
@@ -16,12 +16,14 @@ interface locationProps {
 
 const Dashboard = ({list, addLocation, deleteLocation} : locationProps) => {
 
-   const locationsLayout = list ? list.map((elem) => (<h4 key={`${elem.name + elem.lon + elem.lat}`}>{elem.name}</h4>)) : null;
+    const createLocationsLayout = useMemo(() => (list : Location[]) =>
+        list?.map((elem) => (<h4 key={`${elem.name + elem.lon + elem.lat}`}>{elem.name}</h4>)), [list]) 
+   
     
         
     return (
         <div>
-         {locationsLayout}   
+         {createLocationsLayout(list)}   
         </div>
     )
 }
