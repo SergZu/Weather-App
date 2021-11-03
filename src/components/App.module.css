@@ -1,7 +1,7 @@
 .appContainer {
     width: 100%;
     min-height: 60vh;
-    background: linear-gradient(135deg, #0b688d 0%, #ebb654 50%, #0b688d 100%);
+    background-color: #e6a121 ;
     margin: 5px auto;
     border: 1px solid transparent;
     font-family: Arial, Helvetica, sans-serif;
@@ -9,6 +9,8 @@
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    background-image: url('../assets/Mars-surf-med.jpg');
+    background-size: cover;
 
 }
 
@@ -19,10 +21,7 @@
     display: grid;
     gap: 1rem;
     grid-template-columns: 3fr 1fr;
-    background-color: rgba(0, 0, 0, 0.3);
     border-radius: 10px;
-    background-image: url('../assets/Mars-surf-med.jpg');
-    background-size: cover;
 }
 
 @media screen and (min-width: 800px) {

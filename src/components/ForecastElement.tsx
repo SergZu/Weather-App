@@ -1,5 +1,5 @@
 import React from 'react'
-import { months } from '../UI/CurrentDate/CurrentDate';
+import { months } from '../constants';
 import classes from './ForecastElement.module.css'
 
 
@@ -12,7 +12,6 @@ export interface ForecastElementProps {
 
 const ForecastElement = ({date, tmin, tmax, description} : ForecastElementProps) => {
     const targetDate = new Date(date);
-    console.log(`${targetDate.getDate()} ${targetDate.getMonth()} ${targetDate.getFullYear()} ${targetDate.getHours()}`)
 
     return (
         <div className={classes.forecastElement}>
