@@ -1,6 +1,9 @@
 .btn {
-    width: 15%;
-    min-height: 15%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 1.5rem;
     border-radius: 4px;
     background-color: rgb(194, 184, 184);
