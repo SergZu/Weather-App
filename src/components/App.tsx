@@ -66,7 +66,9 @@ const App = () => {
         const newData = locations.filter((item) => item.name !== locationName);
         setLocationsList(newData);
         setStorageData(newData);
-
+        const weatherCopy = {...weatherData};
+        delete weatherCopy[locationName];
+        setWeatherData(weatherCopy);
     }
 
     return (
