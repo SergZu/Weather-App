@@ -1,0 +1,32 @@
+.locationsBoard {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 1.5rem;
+    color: #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+    border-bottom: 2px solid #ddd;
+}
+
+.locationList {
+    list-style-type: none;
+    margin-top: 15px;
+    overflow-y: auto;
+}
+
+.locationElement {
+    font-weight: bold;
+}
+
+.locationAddBtn {
+    width: 15%;
+    min-height: 15%;
+    border-radius: 4px;
+    background-color: rgb(194, 184, 184);
+    transform: translate(0px, 0px);
+}
+
+.locationAddBtn:active {
+    transform: translate(3px, 3px);
+}
