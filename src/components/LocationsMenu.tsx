@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import classes from './LocationsMenu.module.css'
 import { Location } from './App'
 
 export interface LocationMenuProps {
@@ -9,11 +10,16 @@ export interface LocationMenuProps {
 
 const LocationsMenu = ({list, addLocation, deleteLocation} : LocationMenuProps) => {
     const createLocationsLayout = useMemo(() => (list : Location[]) =>
-        list?.map((elem) => (<h4 key={`${elem.name + elem.lon + elem.lat}`}>{elem.name}</h4>)), [list]) 
+        list?.map((elem) => (<li key={`${elem.name + elem.lon + elem.lat}`} className={classes.locationElement}>{elem.name}</li>)), [list]) 
    
     return (
-        <div>
-            {createLocationsLayout(list)} 
+        <div className={classes.locationsBoard}>
+            <ul className={classes.locationList}>
+            {createLocationsLayout(list)}
+            </ul>
+            <button className={classes.locationAddBtn}>
+                +    
+            </button> 
         </div>
     )
 }
