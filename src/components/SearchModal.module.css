@@ -5,7 +5,21 @@
     top: 50px;
     bottom: 50px;
     z-index: 999;
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-template-rows: 4fr 1fr;
+    align-items: flex-start;
+    justify-items: center;
     border-radius: 5px;
-    background-color: rgb(33, 49, 136);
+    background-color: rgba(33, 49, 136, 0.6);
     color:rgb(177, 143, 49);
+}
+
+button {
+    margin-top: 20px;
+}
+
+.closeBtn {
+    margin-left: auto;
+    margin-right: 20px;
 }
