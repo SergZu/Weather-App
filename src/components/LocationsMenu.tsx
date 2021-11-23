@@ -12,6 +12,7 @@ export interface LocationMenuProps {
 
 const LocationsMenu = ({list, addLocation, deleteLocation} : LocationMenuProps) => {
     const [isModalOpen, toggleModal] = useState(false);
+    const [deleteMode, toggleDeleteMode] = useState(false);
 
     const openModal = () => {
         if (isModalOpen) return ;
@@ -25,8 +26,21 @@ const LocationsMenu = ({list, addLocation, deleteLocation} : LocationMenuProps) 
         console.log('closed')
     }
 
+    const toggleDelete = () => {
+        toggleDeleteMode(() => !deleteMode)
+    }
+
+
     const createLocationsLayout = useMemo(() => (list : Location[]) =>
-        list?.map((elem) => (<li key={`${elem.name + elem.lon + elem.lat}`} className={classes.locationElement}>{`${elem.name} - ${elem.temp ? elem.temp  : 'N/A'}`}{elem.temp && <>&deg;</>}</li>)), [list]) 
+        list?.map((elem) => 
+            (<li key={`${elem.name + elem.lon + elem.lat}`} className={classes.locationElement}>
+                <span>{`${elem.name} - ${elem.temp ? elem.temp  : 'N/A'}`}{elem.temp && <>&deg;</>}</span>
+                {deleteMode && <SimpleBtn className={'small'} onclickHandler={() => {
+                    deleteLocation(elem.name)
+                    } 
+                }>-</SimpleBtn>}
+            </li>))
+            , [list, deleteMode]) 
    
     return (
         <div className={classes.locationsBoard}>            
@@ -34,7 +48,10 @@ const LocationsMenu = ({list, addLocation, deleteLocation} : LocationMenuProps) 
             <ul className={classes.locationList}>
             {createLocationsLayout(list)}
             </ul>
-            <SimpleBtn onclickHandler={openModal} >&#43;</SimpleBtn>
+            <div className={classes.btnBlock}>
+                <SimpleBtn onclickHandler={openModal} >&#43;</SimpleBtn>
+                <SimpleBtn onclickHandler={toggleDelete}>&#10007;</SimpleBtn>
+            </div>
         </div>
     )
 }

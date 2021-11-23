@@ -1,22 +1,32 @@
 .locationsBoard {
     display: flex;
+    height: 45vh;
     justify-content: space-between;
     align-items: flex-start;
     gap: 0.5rem;
+    margin-right: 10px;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: #ddd;
     border-bottom: 2px solid #ddd;
 }
 
 .locationList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    max-height: 40vh;
     list-style-type: none;
+    margin-left: 10px;
+    padding-right: 15px;
+    padding-left: 5px;
     margin-top: 15px;
     overflow-y: auto;
 }
 
 .locationElement {
     font-weight: bold;
+    display: flex;
 }
 
 .locationAddBtn {

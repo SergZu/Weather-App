@@ -34,10 +34,10 @@ const DashboardLazy = lazy(() => import('./Dashboard'));
 const App = () => {
     const [weatherData, setWeatherData] = useState<WeatherDataObject>({});
     const [locations, setLocationsList] = useState<Location[]>([]);
-    const [currentLocation, setCurrentLocation] = useState('');
+    const [currentLocation, setCurrentLocation] = useState(-1);
 
     const computeCurrentLocation = () => {
-        if (currentLocation.length === 0) setCurrentLocation('Mars')
+        if (currentLocation === -1) setCurrentLocation(0)
     }
 
     const [fetchWeather, isWeatherLoading, errorWeather] = useLoading(async () => {
@@ -72,25 +72,57 @@ const App = () => {
         setWeatherData(weatherCopy);
     }
 
-    let tempArray = useMemo(() => () => {
-        let temperature : number[] = [];
+    const tempArray = useMemo(() => () => {
+        let temperature = {};
         for (let location in weatherData) {
-            temperature.push(weatherData[location].list[0].main.temp)
+            const locationName = weatherData[location].city.name;
+            temperature[locationName] = weatherData[location].list[0].main.temp;
         }
-        const result = locations.map((location, inx) => ({...location, temp : temperature[inx]})) 
+        console.log(temperature);
+        const result = locations.map((location) => ({...location, temp : temperature[location.name]})) 
+        console.dir(result);
         return result
     }, [weatherData, locations]);
+
+    const selectBackground = (weatherType : string, isMars : boolean) : string => {
+        if (isMars) return 'marsBackground'
+        let result = '';
+        switch (weatherType) {
+            case 'clear' : 
+                result = 'clearSkyBackground';
+                break;
+            case 'cloud' : 
+                result = 'cloudyBackground';
+                break;
+            case 'rain' :
+                result = 'rainyBackground';
+                break;
+            case 'snow' :
+                result = 'snowyBackground';
+                break;
+            case 'fog' :
+                result = 'foggyBackground';
+                break;
+            default :
+                result = 'defaultBackground'
+        }
+        return result
+    }
+
+    const location = currentLocation !== -1 ? locations[currentLocation].name : '';
+    const loadingCondition = isWeatherLoading || isLocationsLoading || currentLocation === -1 || weatherData?.Mars === null;
 
     return (
                 <div className={classes.appContainer}>
                         {errorLoc ? (<Alert text={errorLoc} />) : null}
                         {errorWeather ? (<Alert text={errorWeather} />) : null}
-                    <main className={classes.app}>
-                        {isWeatherLoading || isLocationsLoading || currentLocation === '' || weatherData?.Mars === null ? <Spinner /> : 
+                    <main className={`${classes.app} ${!loadingCondition 
+    && classes[ selectBackground( weatherData[ location ].list[0].weather.main , !!locations[currentLocation].notEarth ) ]}`}>
+                        { loadingCondition ? <Spinner /> : 
                         <Suspense fallback={<Spinner />}>
                             <>
-                                <WeatherLazy location={currentLocation} data={weatherData[currentLocation]} />
-                                <DashboardLazy list={tempArray()} addLocation={addLocation} deleteLocation={deleteLocation} weatherData={weatherData[currentLocation]} />
+                                <WeatherLazy location={location} data={weatherData[ location]} />
+                                <DashboardLazy list={tempArray()} addLocation={addLocation} deleteLocation={deleteLocation} weatherData={ weatherData[ locations[currentLocation].name ] } />
                             </>
                         </Suspense> 
                         }                        

@@ -9,7 +9,7 @@ export interface SimpleBtnProps {
 
 const SimpleBtn = ({children, onclickHandler, className} : SimpleBtnProps) => {
     return (
-        <button className={`${classes.btn} ${className}`} onClick={onclickHandler}>
+        <button className={`${classes.btn} ${classes[className]}`} onClick={onclickHandler}>
            {children}
         </button>
     )

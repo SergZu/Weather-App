@@ -13,3 +13,10 @@
 .btn:active {
     transform: translate(3px, 3px);
 }
+
+.small {
+    width: 15px;
+    height: 15px;
+    font-size: 1.1rem;
+    margin: 5px 0;
+}

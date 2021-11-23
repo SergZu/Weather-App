@@ -1,6 +1,7 @@
 .dashboardContainer {
-    display: grid;
-    grid-template-rows: 2fr 3fr;
+    display: flex;
+    flex-direction: column;
+    height: 88vh;
     padding: 5px;
     background-color: rgba(46, 38, 49, 0.5);
     border-top-right-radius: 10px;

@@ -1,5 +1,6 @@
 import React from 'react'
 import { WeatherApiResponse } from './Weather'
+import classes from './WeatherDetails.module.css'
 
 export interface WeatherDetailsProps {
     weatherData : WeatherApiResponse
@@ -7,7 +8,7 @@ export interface WeatherDetailsProps {
 
 const WeatherDetails = ({weatherData} : WeatherDetailsProps) => {
     return (
-        <div>
+        <div className={classes.weatherDetails}>
             
         </div>
     )
