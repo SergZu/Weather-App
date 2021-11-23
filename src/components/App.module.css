@@ -1,6 +1,10 @@
+html {
+    height: 100vh;
+}
+
 .appContainer {
     width: 100%;
-    min-height: 90vh;
+    height: 90vh;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -10,20 +14,53 @@
     font-family: Arial, Helvetica, sans-serif;
     border-radius: 10px;
     background-color: #e6a121 ;
-    background-image: url('../assets/Mars-surf-med.jpg');
-    background-size: cover;
+    background-attachment: fixed;
 
 }
 
 .app {
     width: 100%;
     margin: auto;
-    min-height: 90vh;
+    max-height: inherit;
     display: grid;
     gap: 1rem;
     grid-template-columns: 3fr 1fr;
     border-radius: 10px;
 }
+
+.marsBackground {    
+    background-image: url('../assets/Mars-surf-med.jpg');
+}
+
+.defaultBackground {
+    background-image: url('../assets/Storm-sm.jpg');
+}
+
+.clearSkyBackground {
+    background-image: url('../assets/sunny.jpg');
+}
+
+.cloudyBackground {
+    background-image: url('../assets/cloud.jpg');
+}
+
+.rainyBackground {
+    background-image: url('../assets/rain.jpg');
+}
+
+.snowyBackground {
+    background-image: url('../assets/snow.jpg');
+}
+
+.foggyBackground {
+    background-image: url('../assets/fog.jpg');
+}
+
+.marsBackground, .defaultBackground, .clearSkyBackground, .cloudyBackground, .rainyBackground, .snowyBackground, .foggyBackground {   
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 
 @media screen and (min-width: 800px) {
     .appContainer {
