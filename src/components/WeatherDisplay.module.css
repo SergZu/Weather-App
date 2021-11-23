@@ -1,5 +1,6 @@
 .display {
     display: flex;
+    flex-direction: column;
     margin: 0 auto;
     margin-bottom: 5rem;
     margin-top: auto;
@@ -9,9 +10,10 @@
     text-shadow: 0px 0px 5px #111;
 }
 
-.displayTemp {
-    font-size: 5rem;
-    font-weight: bold;
+.displayWeather {
+    display: grid;
+    grid-template-areas: "temp weather weather"
+                         "temp wind wind";
 }
 
 .displayInfoBlock {
@@ -21,17 +23,28 @@
     justify-content: space-around;
 }
 
+.displayTemp {
+    grid-area: temp;
+    font-size: 5rem;
+    font-weight: bold;
+}
+
+
+
 .displayLocation {
     font-size: 3rem;
     letter-spacing: 0.2rem;
 }
 
 .displayWeather {
+    grid-area: weather;
+    justify-self: center;
     font-size: 1.5rem;
     letter-spacing: 0.1rem;
 }
 
 .displayWind {
+    grid-area: wind;
     font-size: 1.5rem;
     letter-spacing: 0.15rem;
 }

@@ -20,13 +20,15 @@ const WeatherDisplay = ({data} : DisplayProps) => {
 
     return (
         <div className={classes.display}>
-            <span className={classes.displayTemp}>{data.temp}&deg;</span>
             <div className={classes.displayInfoBlock}>
                 <span className={classes.displayLocation}>{data.location}</span>
-                <CurrentDate />
-                <span className={classes.displayWind}>{`Wind : ${data.wind.speed}m/s ${computeDirection(data.wind.deg)}`}</span>             
+                <CurrentDate />                        
             </div>
-            <span className={classes.displayWeather}>{data.weather}</span>
+            <div className={classes.displayWeather}>
+                <span className={classes.displayTemp}>{data.temp}&deg;</span>
+                <span className={classes.displayWeather}>{data.weather}</span>
+                <span className={classes.displayWind}>{`Wind : ${data.wind.speed}m/s ${computeDirection(data.wind.deg)}`}</span> 
+            </div>
         </div>
     )
 }

@@ -1,6 +1,8 @@
 .dashboardContainer {
     display: grid;
     grid-template-rows: 2fr 3fr;
-    padding: 10px 15px;
+    padding: 5px;
     background-color: rgba(46, 38, 49, 0.5);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
