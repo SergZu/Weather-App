@@ -13,7 +13,7 @@ export interface locationProps {
 }
 
 const Dashboard = React.memo(function Dashboard({list, addLocation, deleteLocation, weatherData} : locationProps) {
-      
+  
     return (
         <div className={classes.dashboardContainer}>
             <LocationsMenu list={list} addLocation={addLocation} deleteLocation={deleteLocation} />
