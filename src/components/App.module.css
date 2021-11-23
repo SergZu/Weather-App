@@ -13,7 +13,7 @@ html {
     border: 1px solid transparent;
     font-family: Arial, Helvetica, sans-serif;
     border-radius: 10px;
-    background-color: #e6a121 ;
+    background-color: rgba(88, 89, 88, 0.3);
     background-attachment: fixed;
 
 }
