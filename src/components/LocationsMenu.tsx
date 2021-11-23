@@ -26,7 +26,7 @@ const LocationsMenu = ({list, addLocation, deleteLocation} : LocationMenuProps) 
     }
 
     const createLocationsLayout = useMemo(() => (list : Location[]) =>
-        list?.map((elem) => (<li key={`${elem.name + elem.lon + elem.lat}`} className={classes.locationElement}>{elem.name}</li>)), [list]) 
+        list?.map((elem) => (<li key={`${elem.name + elem.lon + elem.lat}`} className={classes.locationElement}>{`${elem.name} - ${elem.temp ? elem.temp  : 'N/A'}`}{elem.temp && <>&deg;</>}</li>)), [list]) 
    
     return (
         <div className={classes.locationsBoard}>            

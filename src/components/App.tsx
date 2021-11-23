@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react'
+import React, { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import WeatherService from '../Api/WeatherService'
 import useLoading from '../hooks/useLoading'
 import Spinner from '../UI/spinner/Spinner'
@@ -20,6 +20,7 @@ export type Location = {
     name : string;
     lat : string;
     lon : string;
+    temp? : number;
     notEarth? : boolean
 }
 
@@ -71,20 +72,27 @@ const App = () => {
         setWeatherData(weatherCopy);
     }
 
+    let tempArray = useMemo(() => () => {
+        let temperature : number[] = [];
+        for (let location in weatherData) {
+            temperature.push(weatherData[location].list[0].main.temp)
+        }
+        const result = locations.map((location, inx) => ({...location, temp : temperature[inx]})) 
+        return result
+    }, [weatherData, locations]);
+
     return (
                 <div className={classes.appContainer}>
                         {errorLoc ? (<Alert text={errorLoc} />) : null}
                         {errorWeather ? (<Alert text={errorWeather} />) : null}
                     <main className={classes.app}>
-                        {isWeatherLoading || currentLocation === '' || weatherData?.Mars === null ? <Spinner /> : 
+                        {isWeatherLoading || isLocationsLoading || currentLocation === '' || weatherData?.Mars === null ? <Spinner /> : 
                         <Suspense fallback={<Spinner />}>
-                            <WeatherLazy location={currentLocation} data={weatherData[currentLocation]} />
+                            <>
+                                <WeatherLazy location={currentLocation} data={weatherData[currentLocation]} />
+                                <DashboardLazy list={tempArray()} addLocation={addLocation} deleteLocation={deleteLocation} weatherData={weatherData[currentLocation]} />
+                            </>
                         </Suspense> 
-                        }                        
-                        {isLocationsLoading ? <Spinner /> : 
-                        <Suspense fallback={<Spinner />}>
-                            <DashboardLazy list={locations} addLocation={addLocation} deleteLocation={deleteLocation} weatherData={weatherData[currentLocation]} />
-                        </Suspense>
                         }                        
                     </main>
                 </div>
