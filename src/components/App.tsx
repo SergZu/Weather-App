@@ -1,4 +1,6 @@
-import React, { lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import Weather from './Weather'
+import Dashboard from './Dashboard'
 import WeatherService from '../Api/WeatherService'
 import useLoading from '../hooks/useLoading'
 import Spinner from '../UI/spinner/Spinner'
@@ -27,9 +29,6 @@ export type Location = {
 export type WeatherDataObject = {
     [cityName : string] : WeatherApiResponse
 }
-
-const WeatherLazy = lazy(() => import('./Weather'));
-const DashboardLazy = lazy(() => import('./Dashboard'));
 
 const App = () => {
     const [weatherData, setWeatherData] = useState<WeatherDataObject>({});
@@ -119,12 +118,10 @@ const App = () => {
                     <main className={`${classes.app} ${!loadingCondition 
     && classes[ selectBackground( weatherData[ location ].list[0].weather.main , !!locations[currentLocation].notEarth ) ]}`}>
                         { loadingCondition ? <Spinner /> : 
-                        <Suspense fallback={<Spinner />}>
                             <>
-                                <WeatherLazy location={location} data={weatherData[ location]} />
-                                <DashboardLazy list={tempArray()} addLocation={addLocation} deleteLocation={deleteLocation} weatherData={ weatherData[ locations[currentLocation].name ] } />
+                                <Weather location={location} data={weatherData[ location]} />
+                                <Dashboard list={tempArray()} addLocation={addLocation} deleteLocation={deleteLocation} weatherData={ weatherData[ locations[currentLocation].name ] } />
                             </>
-                        </Suspense> 
                         }                        
                     </main>
                 </div>
