@@ -8,10 +8,11 @@ import Alert from '../UI/Alert/Alert'
 export interface SearchModalProps{
     closeModal : () => void;
     addLocation : (location : Location) => void;
+    getNewLocationData: ({ name, lat, lon }: Location, useCoords: boolean) => Promise<void>;
 }
 
 
-const SearchModal = ({closeModal, addLocation}) => {
+const SearchModal = ({closeModal, addLocation, getNewLocationData}) => {
     const [ geoError, setGeoError ] = useState(null);
     const [ geoPositionInProgress, setGeoPositionInProgress] = useState(false);
 
@@ -24,11 +25,13 @@ const SearchModal = ({closeModal, addLocation}) => {
         if (navigator.geolocation) {
 
             const onSuccess = ({coords}) => {
-                addLocation({
+                const loc = {
                     name : 'My last location',
                     lat : coords.latitude,
                     lon : coords.longitude
-                })
+                };
+                addLocation(loc);
+                getNewLocationData(loc, true)
                 setGeoError(null);
                 setGeoPositionInProgress(false);
             }
@@ -46,7 +49,7 @@ const SearchModal = ({closeModal, addLocation}) => {
             {geoError && <Alert text={geoError} />}
             <div>
                 <button onClick={onGeoClickHandler}>Get My Position</button>
-                <SearchForm addLocation={addLocation} />
+                <SearchForm addLocation={addLocation} getNewLocationData={getNewLocationData} />
             </div>
             <SimpleBtn className={classes.closeBtn} onclickHandler={closeModal}>&#10008;</SimpleBtn>
         </div>

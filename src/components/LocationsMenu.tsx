@@ -7,10 +7,11 @@ import SimpleBtn from '../UI/SimpleBtn/SimpleBtn';
 export interface LocationMenuProps {
     list : Location[],
     addLocation : (location : Location) => void,
-    deleteLocation : (locationName : string) => void
+    deleteLocation : (locationName : string) => void,
+    getNewLocationData: ({ name, lat, lon }: Location, useCoords: boolean) => Promise<void>
 }
 
-const LocationsMenu = ({list, addLocation, deleteLocation} : LocationMenuProps) => {
+const LocationsMenu = ({list, addLocation, deleteLocation, getNewLocationData} : LocationMenuProps) => {
     const [isModalOpen, toggleModal] = useState(false);
     const [deleteMode, toggleDeleteMode] = useState(false);
 
@@ -44,7 +45,7 @@ const LocationsMenu = ({list, addLocation, deleteLocation} : LocationMenuProps) 
    
     return (
         <div className={classes.locationsBoard}>            
-            {isModalOpen && (<SearchModal closeModal={closeModal} addLocation={addLocation} />)}
+            {isModalOpen && (<SearchModal closeModal={closeModal} addLocation={addLocation} getNewLocationData={getNewLocationData} />)}
             <ul className={classes.locationList}>
             {createLocationsLayout(list)}
             </ul>

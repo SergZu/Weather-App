@@ -4,7 +4,7 @@ import Dashboard from './Dashboard'
 import WeatherService from '../Api/WeatherService'
 import useLoading from '../hooks/useLoading'
 import Spinner from '../UI/spinner/Spinner'
-import { getStorageData, setStorageData } from '../utils/storageUtils'
+import { getLocationAlias, getStorageData, setStorageData } from '../utils/storageUtils'
 import { WeatherApiResponse } from './Weather'
 import classes from './App.module.css'
 import Alert from '../UI/Alert/Alert'
@@ -36,7 +36,7 @@ const App = () => {
     }
 
     const [fetchWeather, isWeatherLoading, errorWeather] = useLoading(async () => {
-        const weather : WeatherDataObject = await WeatherService.getAllData() as WeatherDataObject;
+        let weather : WeatherDataObject = await WeatherService.getAllData() as WeatherDataObject;
         setWeatherData( weather );
     });
 
@@ -51,6 +51,16 @@ const App = () => {
         fetchLocation();
         fetchWeather();
     }, []);
+
+    const getNewLocationData = async ({name, lat, lon} : Location, useCoords : boolean)  => {
+        if (useCoords) {
+            const newData = await WeatherService.getDataByCoords({lat, lon }) as WeatherApiResponse;
+            setWeatherData( {...weatherData, [name] : newData} );
+        } else {
+            const newData = await WeatherService.getDataByName({name}) as WeatherApiResponse;
+            setWeatherData( {...weatherData, [name] : newData} ); 
+        }
+    }
 
     const addLocation = (location : Location) : void => {
         const newData = location.name === 'My last location' && locations.some((loc) => loc.name === 'My last location') 
@@ -75,7 +85,15 @@ const App = () => {
             const locationName = weatherData[location].city.name;
             temperature[locationName] = weatherData[location].list[0].main.temp;
         }
-        const result = locations.map((location) => ({...location, temp : temperature[location.name]})) 
+        const result = locations.map((location) => {
+            let name = '';
+            if (location.name === 'My last location'){
+                name = getLocationAlias({lat : location.lat, lon : location.lon})
+        } else {
+            name = location.name
+        }
+            return ({...location, 
+            temp : temperature[name]})}) 
         return result
     }, [weatherData, locations]);
 
@@ -117,7 +135,8 @@ const App = () => {
                                             ? <Spinner /> 
                                             : <>
                                                   <Weather location={location} data={weatherData[ location]} />
-                                                  <Dashboard list={tempArray()} addLocation={addLocation} deleteLocation={deleteLocation} weatherData={ weatherData[ locations[currentLocation].name ] } />
+                                                  <Dashboard list={tempArray()} addLocation={addLocation} deleteLocation={deleteLocation} 
+                                                  weatherData={ weatherData[ locations[currentLocation].name ] } getNewLocationData={getNewLocationData} />
                                               </>
                         }                        
                     </main>
