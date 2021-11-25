@@ -3,6 +3,7 @@ import classes from './SearchModal.module.css'
 import { Location } from './App'
 import SimpleBtn from '../UI/SimpleBtn/SimpleBtn'
 import SearchForm from './SearchForm'
+import Alert from '../UI/Alert/Alert'
 
 export interface SearchModalProps{
     closeModal : () => void;
@@ -42,6 +43,7 @@ const SearchModal = ({closeModal, addLocation}) => {
 
     return (
         <div className={classes.modal}>
+            {geoError && <Alert text={geoError} />}
             <div>
                 <button onClick={onGeoClickHandler}>Get My Position</button>
                 <SearchForm addLocation={addLocation} />
