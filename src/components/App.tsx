@@ -8,6 +8,7 @@ import { getLocationAlias, getStorageData, setStorageData } from '../utils/stora
 import { WeatherApiResponse } from './Weather'
 import classes from './App.module.css'
 import Alert from '../UI/Alert/Alert'
+import { selectBackground } from '../utils/selectBackground'
 
 //ToDo
 //Create dropbox with text UI component
@@ -52,22 +53,17 @@ const App = () => {
         fetchWeather();
     }, []);
 
-    const getNewLocationData = async ({name, lat, lon} : Location, useCoords : boolean)  => {
-        if (useCoords) {
-            const newData = await WeatherService.getDataByCoords({lat, lon }) as WeatherApiResponse;
-            setWeatherData( {...weatherData, [name] : newData} );
-        } else {
-            const newData = await WeatherService.getDataByName({name}) as WeatherApiResponse;
-            setWeatherData( {...weatherData, [name] : newData} ); 
-        }
+    const getNewLocationData = (newData : WeatherApiResponse)  => { 
+            setWeatherData( {...weatherData, [newData.city.name] : newData} );
     }
+    
 
-    const addLocation = (location : Location) : void => {
-        const newData = location.name === 'My last location' && locations.some((loc) => loc.name === 'My last location') 
-                                            ? [...locations.filter((loc) => loc.name !== 'My last location'), location] 
-                                            : [...locations, location];
+    const addLocation = (location : Location) : boolean => {
+        if (locations.some((loc) => (loc.name === location.name && loc.lat === location.lat && loc.lon === location.lon) ) ) return false;
+        const newData = [...locations, location];
         setLocationsList(newData);
         setStorageData(newData);
+        return true
     }
 
     const deleteLocation = (locationName : string) : void => {
@@ -97,31 +93,7 @@ const App = () => {
         return result
     }, [weatherData, locations]);
 
-    const selectBackground = (weatherType : string, isMars : boolean) : string => {
-        if (isMars) return 'marsBackground'
-        let result = '';
-        switch (weatherType) {
-            case 'clear' : 
-                result = 'clearSkyBackground';
-                break;
-            case 'cloud' : 
-                result = 'cloudyBackground';
-                break;
-            case 'rain' :
-                result = 'rainyBackground';
-                break;
-            case 'snow' :
-                result = 'snowyBackground';
-                break;
-            case 'fog' :
-                result = 'foggyBackground';
-                break;
-            default :
-                result = 'defaultBackground'
-        }
-        return result
-    }
-
+   
     const location = currentLocation !== -1 ? locations[currentLocation].name : '';
     const loadingCondition = isWeatherLoading || isLocationsLoading || currentLocation === -1 || weatherData?.Mars === null;
 

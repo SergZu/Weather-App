@@ -3,12 +3,13 @@ import classes from './LocationsMenu.module.css'
 import { Location } from './App'
 import SearchModal from './SearchModal';
 import SimpleBtn from '../UI/SimpleBtn/SimpleBtn';
+import { WeatherApiResponse } from './Weather';
 
 export interface LocationMenuProps {
     list : Location[],
-    addLocation : (location : Location) => void,
+    addLocation : (location : Location) => boolean,
     deleteLocation : (locationName : string) => void,
-    getNewLocationData: ({ name, lat, lon }: Location, useCoords: boolean) => Promise<void>
+    getNewLocationData:(data : WeatherApiResponse) => void;
 }
 
 const LocationsMenu = ({list, addLocation, deleteLocation, getNewLocationData} : LocationMenuProps) => {

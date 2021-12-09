@@ -7,10 +7,10 @@ import WeatherDetails from './WeatherDetails'
 
 export interface locationProps {
     list : Location[],
-    addLocation : (location : Location) => void,
+    addLocation : (location : Location) => boolean,
     deleteLocation : (locationName : string) => void,
     weatherData : WeatherApiResponse,
-    getNewLocationData: ({ name, lat, lon }: Location, useCoords: boolean) => Promise<void>
+    getNewLocationData: (data : WeatherApiResponse) => void;
 }
 
 const Dashboard = React.memo(function Dashboard({list, addLocation, deleteLocation, weatherData, getNewLocationData } : locationProps) {

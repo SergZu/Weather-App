@@ -1,5 +1,8 @@
 import { Location } from "../components/App"
 
+const compareLocations = (arr : Location[], locB : Location) : boolean => {
+    return arr.some((loc) => (loc.name === locB.name && loc.lat === locB.lat && loc.lon === locB.lon))    
+}
 
 export const setStorageData = function(data : Location[]) : void {
     const storageData = JSON.stringify(data);
@@ -15,10 +18,6 @@ export const getStorageData = function() : Location[] {
         return initValue
     }
     return JSON.parse(storageData)
-}
-
-const compareLocations = (arr : Location[], locB : Location) : boolean => {
-    return arr.some((loc) => (loc.name === locB.name && loc.lat === locB.lat && loc.lon === locB.lon))    
 }
 
 export const setLocationAlias = function(data : Location) {
