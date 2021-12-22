@@ -11,13 +11,15 @@ export interface locationProps {
     deleteLocation : (locationName : string) => void,
     weatherData : WeatherApiResponse,
     getNewLocationData: (data : WeatherApiResponse) => void;
+    changeCurrentLocation : (newId : number) => void;
 }
 
-const Dashboard = React.memo(function Dashboard({list, addLocation, deleteLocation, weatherData, getNewLocationData } : locationProps) {
+const Dashboard = React.memo(function Dashboard({list, addLocation, deleteLocation, weatherData, getNewLocationData,changeCurrentLocation } : locationProps) {
   
     return (
         <div className={classes.dashboardContainer}>
-            <LocationsMenu list={list} addLocation={addLocation} deleteLocation={deleteLocation} getNewLocationData={getNewLocationData} />
+            <LocationsMenu list={list} addLocation={addLocation} deleteLocation={deleteLocation} getNewLocationData={getNewLocationData}
+                changeCurrentLocation={changeCurrentLocation} />
             <WeatherDetails weatherData={weatherData} />  
         </div>
     )

@@ -57,6 +57,9 @@ const App = () => {
             setWeatherData( {...weatherData, [newData.city.name] : newData} );
     }
     
+    const changeCurrentLocation = (newId : number) : void => {
+        setCurrentLocation(newId)
+    }
 
     const addLocation = (location : Location) : boolean => {
         if (locations.some((loc) => (loc.name === location.name && loc.lat === location.lat && loc.lon === location.lon) ) ) return false;
@@ -102,15 +105,18 @@ const App = () => {
                         {errorLoc ? (<Alert text={errorLoc} />) : null}
                         {errorWeather ? (<Alert text={errorWeather} />) : null}
                     <main className={`${classes.app} ${!loadingCondition 
-    && classes[ selectBackground( weatherData[ location ].list[0].weather.main , !!locations[currentLocation].notEarth ) ]}`}>
-                        { loadingCondition 
-                                            ? <Spinner /> 
-                                            : <>
-                                                  <Weather location={location} data={weatherData[ location]} />
-                                                  <Dashboard list={tempArray()} addLocation={addLocation} deleteLocation={deleteLocation} 
-                                                  weatherData={ weatherData[ locations[currentLocation].name ] } getNewLocationData={getNewLocationData} />
-                                              </>
-                        }                        
+    && classes[ selectBackground( weatherData[ location ].list[0].weather.main , locations[currentLocation].notEarth ) ]}`}>
+                         { loadingCondition ? 
+                                                <Spinner />
+                                            :   <>
+                                                    <Weather  data={ weatherData[locations[currentLocation].name] } 
+                                                                location={locations[currentLocation].name} />
+                                                    <Dashboard list={tempArray()} addLocation={addLocation} deleteLocation={deleteLocation} 
+                                                               weatherData={weatherData[locations[currentLocation].name] } changeCurrentLocation={changeCurrentLocation}
+                                                               getNewLocationData={getNewLocationData} />
+                                                </>                    
+                        } 
+                                            
                     </main>
                 </div>
     )

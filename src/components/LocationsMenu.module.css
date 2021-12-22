@@ -27,6 +27,7 @@
 .locationElement {
     font-weight: bold;
     display: flex;
+    cursor: pointer;
 }
 
 .locationAddBtn {
