@@ -1,6 +1,8 @@
-@keyframes rotating {
+
+
+@keyframes spin {
     0% {
-        transform: rotate(0deg)
+        transform: rotate(0deg);
     }
     100% {
         transform: rotate(360deg);
@@ -8,21 +10,26 @@
 }
 
 .spinner {
-    display:flex;
-    flex-direction: column;
-}
-
-.spinnerText {
-    margin: auto;
-    gap: 1rem;
-    animation: rotating 5s linear infinite reverse;
+    display: flex;
+    width: 100%;
+    height: 90vh;
+    --spin-color: rgb(49, 2, 49); 
 }
 
 .loading {
+    display: flex;
     margin: auto;
-    width: 80px;
-    height: 80px;
-    border: 3px dashed darkblue;
+    width: 25vmin;
+    height: 25vmin;
+    border: 4px dashed var(--spin-color);
     border-radius: 50%;
-    animation: rotating 5s linear infinite;
+    animation: spin 8s linear infinite both running;
+}
+
+.text {
+    margin: auto;
+    color: var(--spin-color);
+    font: 800 1.25rem/1.5 'Verdana',sans-serif;
+    animation: inherit;
+    animation-direction: reverse;
 }
