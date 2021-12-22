@@ -8,6 +8,7 @@
     border-radius: 4px;
     background-color: rgb(194, 184, 184);
     transform: translate(0px, 0px);
+    cursor: pointer;
 }
 
 .btn:active {
@@ -18,5 +19,9 @@
     width: 15px;
     height: 15px;
     font-size: 1.1rem;
-    margin: 5px 0;
+    margin: 5px auto;
+}
+
+.invisible {
+    visibility: hidden;
 }
