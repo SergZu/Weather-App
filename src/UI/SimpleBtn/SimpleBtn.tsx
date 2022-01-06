@@ -5,7 +5,7 @@ export interface SimpleBtnProps {
     onclickHandler : () => void;
     children : React.ElementType | string;
     className? : string;
-    hidden : boolean;
+    hidden? : boolean;
 }
 
 const SimpleBtn = ({children, onclickHandler, className, hidden} : SimpleBtnProps) => {
