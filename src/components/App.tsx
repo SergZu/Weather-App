@@ -4,8 +4,7 @@ import Dashboard from './Dashboard'
 import WeatherService from '../Api/WeatherService'
 import useLoading from '../hooks/useLoading'
 import Spinner from '../UI/spinner/Spinner'
-import { getLocationAlias, getStorageData, setStorageData } from '../utils/storageUtils'
-import { WeatherApiResponse } from './Weather'
+import { getStorageData, setStorageData } from '../utils/storageUtils'
 import classes from './App.module.css'
 import Alert from '../UI/Alert/Alert'
 import { selectBackground } from '../utils/selectBackground'
@@ -23,6 +22,35 @@ export type Location = {
     notEarth? : boolean
 }
 
+export type WeatherType = {
+    dt : number,
+    main : {
+        temp : number,
+        temp_min : number,
+        temp_max : number,
+        pressure : number 
+    },
+    weather : {
+        main : string,
+        description : string
+    },
+    clouds : {
+        all : number
+    },
+    wind : {
+        speed : number,
+        deg : number
+    }
+}
+
+export type WeatherApiResponse = {
+    cod : string,
+    list : WeatherType[],
+    city : {
+        name : string
+    }
+}
+
 export type WeatherDataObject = {
     [cityName : string] : WeatherApiResponse
 }
@@ -30,10 +58,11 @@ export type WeatherDataObject = {
 const App = () => {
     const [weatherData, setWeatherData] = useState<WeatherDataObject>({});
     const [locations, setLocationsList] = useState<Location[]>([]);
-    const [currentLocation, setCurrentLocation] = useState(-1);
+    const [currentLocation, setCurrentLocation] = useState<number>(-1);
 
     const computeCurrentLocation = () => {
-        if (currentLocation === -1) setCurrentLocation(0)
+        const locationId = getStorageData('user') as number;
+        setCurrentLocation(locationId)
     }
 
     const [fetchWeather, isWeatherLoading, errorWeather] = useLoading(async () => {
@@ -42,7 +71,7 @@ const App = () => {
     });
 
     const [fetchLocation, isLocationsLoading, errorLoc] = useLoading( async () => {
-        const data = getStorageData();
+        const data = getStorageData('location') as Location[] ;
         computeCurrentLocation();
         setLocationsList(data);
     });
@@ -58,21 +87,22 @@ const App = () => {
     }
     
     const changeCurrentLocation = (newId : number) : void => {
-        setCurrentLocation(newId)
+        setCurrentLocation(newId);
+        setStorageData(newId, 'user');
     }
 
     const addLocation = (location : Location) : boolean => {
         if (locations.some((loc) => (loc.name === location.name && loc.lat === location.lat && loc.lon === location.lon) ) ) return false;
         const newData = [...locations, location];
         setLocationsList(newData);
-        setStorageData(newData);
+        setStorageData(newData, 'location');
         return true
     }
 
     const deleteLocation = (locationName : string) : void => {
         const newData = locations.filter((item) => item.name !== locationName);
         setLocationsList(newData);
-        setStorageData(newData);
+        setStorageData(newData, 'location');
         const weatherCopy = {...weatherData};
         delete weatherCopy[locationName];
         setWeatherData(weatherCopy);
@@ -85,12 +115,8 @@ const App = () => {
             temperature[locationName] = weatherData[location].list[0].main.temp;
         }
         const result = locations.map((location) => {
-            let name = '';
-            if (location.name === 'My last location'){
-                name = getLocationAlias({lat : location.lat, lon : location.lon})
-        } else {
-            name = location.name
-        }
+            let { name } = location;
+            
             return ({...location, 
             temp : temperature[name]})}) 
         return result

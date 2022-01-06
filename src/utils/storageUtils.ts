@@ -1,43 +1,33 @@
 import { Location } from "../components/App"
 
-const compareLocations = (arr : Location[], locB : Location) : boolean => {
-    return arr.some((loc) => (loc.name === locB.name && loc.lat === locB.lat && loc.lon === locB.lon))    
+const UserLocationsStorageKey = '__WeatherUserLocations';
+const CurrentUserStorageKey = '__WeatherAppCurrentUser';
+
+type StorageFuncTarget = 'location' | 'user';
+
+export const setStorageData = function(data : Location[] | number, target : StorageFuncTarget) : void {
+    let storageData = JSON.stringify(data);
+    if (target === 'location') localStorage.setItem(UserLocationsStorageKey , storageData);
+    if (target === 'user') localStorage.setItem(CurrentUserStorageKey , storageData);
 }
 
-export const setStorageData = function(data : Location[]) : void {
-    const storageData = JSON.stringify(data);
-    localStorage.setItem('__WeatherUserLocations', storageData);
-}
-
-export const getStorageData = function() : Location[] {
-    const storageData = localStorage.getItem('__WeatherUserLocations');
-    const initValue : Location[] = [{name : 'Mars', lat : '0', lon : '0', notEarth : true}]
+export const getStorageData = function(target : StorageFuncTarget) : Location[] | number {
+    let storageData;
+    let initValue : Location[] | number;
+    if (target === 'location') {
+        storageData = localStorage.getItem(UserLocationsStorageKey);
+        initValue  = [{name : 'Mars', lat : '0', lon : '0', notEarth : true}];
+    }
+    if (target === 'user') {
+        storageData = localStorage.getItem(CurrentUserStorageKey);
+        initValue  = 0;
+    }
+        
     
-    if (storageData === null) {
-        setStorageData(initValue);
+    if (storageData === null) { 
+        setStorageData(initValue, target);
         return initValue
     }
     return JSON.parse(storageData)
 }
 
-export const setLocationAlias = function(data : Location) {
-    const storageData = JSON.parse(localStorage.getItem('__UserLocationsAlias') );
-
-    if (storageData === null) {
-        const value = JSON.stringify([data])
-        localStorage.setItem('__UserLocationsAlias', value)
-    }
-
-    if ( compareLocations(storageData, data) ) return
-    
-    let newData = [...storageData, data];
-    const storageStr = JSON.stringify(newData);
-    localStorage.setItem('__UserLocationsAlias', storageStr);
-} 
-
-export const getLocationAlias = function({lat, lon}) : string {
-    const storageData = localStorage.getItem('__UserLocationsAlias');
-    const value = JSON.parse(storageData);
-    const name = value.find((item) => (item.lat === lat && item.lon === lon));
-    return name.name
-}

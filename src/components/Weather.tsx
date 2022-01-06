@@ -2,35 +2,9 @@ import React from 'react'
 import WeatherDisplay from './WeatherDisplay'
 import WeatherForecast from './WeatherForecast'
 import classes from './Weather.module.css'
+import { WeatherApiResponse } from './App'
 
-export type WeatherType = {
-    dt : number,
-    main : {
-        temp : number,
-        temp_min : number,
-        temp_max : number,
-        pressure : number 
-    },
-    weather : {
-        main : string,
-        description : string
-    },
-    clouds : {
-        all : number
-    },
-    wind : {
-        speed : number,
-        deg : number
-    }
-}
 
-export type WeatherApiResponse = {
-    cod : string,
-    list : WeatherType[],
-    city : {
-        name : string
-    }
-}
 
 export interface WeatherProps {
     data : WeatherApiResponse;

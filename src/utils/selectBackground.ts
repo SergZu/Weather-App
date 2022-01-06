@@ -2,19 +2,19 @@ export  const selectBackground = (weatherType : string, isMars : boolean) : stri
     if (isMars) return 'marsBackground'
     let result = '';
     switch (weatherType) {
-        case 'clear' : 
+        case 'Clear' : 
             result = 'clearSkyBackground';
             break;
-        case 'cloud' : 
+        case 'Cloud' : 
             result = 'cloudyBackground';
             break;
-        case 'rain' :
+        case 'Rain' :
             result = 'rainyBackground';
             break;
-        case 'snow' :
+        case 'Snow' :
             result = 'snowyBackground';
             break;
-        case 'fog' :
+        case 'Fog' :
             result = 'foggyBackground';
             break;
         default :
