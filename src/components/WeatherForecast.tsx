@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import ForecastElement from './ForecastElement';
-import { WeatherType } from './Weather'
+import { WeatherType } from './App'
 import classes from './WeatherForecast.module.css'
 
 export interface ForecastProps {

@@ -4,7 +4,7 @@ import Dashboard from './Dashboard'
 import WeatherService from '../Api/WeatherService'
 import useLoading from '../hooks/useLoading'
 import Spinner from '../UI/spinner/Spinner'
-import { getStorageData, setStorageData } from '../utils/storageUtils'
+import { getStorageData, setStorageData, StorageFuncTarget } from '../utils/storageUtils'
 import classes from './App.module.css'
 import Alert from '../UI/Alert/Alert'
 import { selectBackground } from '../utils/selectBackground'
@@ -61,7 +61,7 @@ const App = () => {
     const [currentLocation, setCurrentLocation] = useState<number>(-1);
 
     const computeCurrentLocation = () => {
-        const locationId = getStorageData('user') as number;
+        const locationId = getStorageData(StorageFuncTarget.user) as number;
         setCurrentLocation(locationId)
     }
 
@@ -71,7 +71,7 @@ const App = () => {
     });
 
     const [fetchLocation, isLocationsLoading, errorLoc] = useLoading( async () => {
-        const data = getStorageData('location') as Location[] ;
+        const data = getStorageData(StorageFuncTarget.location) as Location[] ;
         computeCurrentLocation();
         setLocationsList(data);
     });
@@ -88,21 +88,21 @@ const App = () => {
     
     const changeCurrentLocation = (newId : number) : void => {
         setCurrentLocation(newId);
-        setStorageData(newId, 'user');
+        setStorageData(newId, StorageFuncTarget.user);
     }
 
     const addLocation = (location : Location) : boolean => {
         if (locations.some((loc) => (loc.name === location.name && loc.lat === location.lat && loc.lon === location.lon) ) ) return false;
         const newData = [...locations, location];
         setLocationsList(newData);
-        setStorageData(newData, 'location');
+        setStorageData(newData, StorageFuncTarget.location);
         return true
     }
 
     const deleteLocation = (locationName : string) : void => {
         const newData = locations.filter((item) => item.name !== locationName);
         setLocationsList(newData);
-        setStorageData(newData, 'location');
+        setStorageData(newData, StorageFuncTarget.location);
         const weatherCopy = {...weatherData};
         delete weatherCopy[locationName];
         setWeatherData(weatherCopy);
@@ -138,8 +138,7 @@ const App = () => {
                                                     <Weather  data={ weatherData[locations[currentLocation].name] } 
                                                                 location={locations[currentLocation].name} />
                                                     <Dashboard list={tempArray()} addLocation={addLocation} deleteLocation={deleteLocation} 
-                                                               weatherData={weatherData[locations[currentLocation].name] } changeCurrentLocation={changeCurrentLocation}
-                                                               getNewLocationData={getNewLocationData} />
+                                                                changeCurrentLocation={changeCurrentLocation} getNewLocationData={getNewLocationData} />
                                                 </>                    
                         } 
                                             

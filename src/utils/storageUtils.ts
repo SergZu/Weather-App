@@ -3,22 +3,25 @@ import { Location } from "../components/App"
 const UserLocationsStorageKey = '__WeatherUserLocations';
 const CurrentUserStorageKey = '__WeatherAppCurrentUser';
 
-type StorageFuncTarget = 'location' | 'user';
+export enum StorageFuncTarget { 
+    location = "Location",
+    user = "User"
+}
 
 export const setStorageData = function(data : Location[] | number, target : StorageFuncTarget) : void {
     let storageData = JSON.stringify(data);
-    if (target === 'location') localStorage.setItem(UserLocationsStorageKey , storageData);
-    if (target === 'user') localStorage.setItem(CurrentUserStorageKey , storageData);
+    if (target === StorageFuncTarget.location) localStorage.setItem(UserLocationsStorageKey , storageData);
+    if (target === StorageFuncTarget.user) localStorage.setItem(CurrentUserStorageKey , storageData);
 }
 
-export const getStorageData = function(target : StorageFuncTarget) : Location[] | number {
+export const getStorageData = function(target : StorageFuncTarget) : Location[] | number{
     let storageData;
     let initValue : Location[] | number;
-    if (target === 'location') {
+    if (target === StorageFuncTarget.location) {
         storageData = localStorage.getItem(UserLocationsStorageKey);
         initValue  = [{name : 'Mars', lat : '0', lon : '0', notEarth : true}];
     }
-    if (target === 'user') {
+    if (target === StorageFuncTarget.user) {
         storageData = localStorage.getItem(CurrentUserStorageKey);
         initValue  = 0;
     }

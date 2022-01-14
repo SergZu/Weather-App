@@ -3,7 +3,7 @@ import classes from './LocationsMenu.module.css'
 import { Location } from './App'
 import SearchModal from './SearchModal';
 import SimpleBtn from '../UI/SimpleBtn/SimpleBtn';
-import { WeatherApiResponse } from './Weather';
+import { WeatherApiResponse } from './App';
 
 export interface LocationMenuProps {
     list : Location[],

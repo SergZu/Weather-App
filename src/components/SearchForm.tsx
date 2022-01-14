@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react'
 import WeatherService from '../Api/WeatherService';
 import SimpleBtn from '../UI/SimpleBtn/SimpleBtn';
 import { Location } from './App';
-import { WeatherApiResponse } from './Weather';
+import { WeatherApiResponse } from './App';
 
 export interface SearchFormProps{
     addLocation : (location : Location) => boolean;
