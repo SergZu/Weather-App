@@ -17,14 +17,19 @@
     margin-left: 10px;
     padding-right: 15px;
     padding-left: 5px;
-    margin-top: 15px;
-    overflow-y: auto;
+    margin-top: 15px;           
 }
 
 .locationElement {
     font-weight: bold;
     display: flex;
     cursor: pointer;
+}
+
+.locationElement:hover,
+.locationElement:focus {
+    transform: scale(1.1);
+    color: goldenrod;
 }
 
 .locationAddBtn {

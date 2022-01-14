@@ -2,7 +2,7 @@ import React from 'react'
 import classes from './SimpleBtn.module.css'
 
 export interface SimpleBtnProps {
-    onclickHandler : () => void;
+    onclickHandler : (event : React.SyntheticEvent) => void;
     children : React.ElementType | string;
     className? : string;
     hidden? : boolean;
