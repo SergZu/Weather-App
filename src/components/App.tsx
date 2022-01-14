@@ -100,6 +100,7 @@ const App = () => {
     }
 
     const deleteLocation = (locationName : string) : void => {
+        if (locationName === 'Mars') return ; // Mars location is undeletable
         const newData = locations.filter((item) => item.name !== locationName);
         setLocationsList(newData);
         setStorageData(newData, StorageFuncTarget.location);
