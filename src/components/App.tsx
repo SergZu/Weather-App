@@ -127,7 +127,7 @@ const App = () => {
     const location = currentLocation !== -1 ? locations[currentLocation].name : '';
     const loadingCondition = isWeatherLoading || currentLocation === -1;
 
-    return ( <React.StrictMode>
+    return ( 
                 <div className={classes.appContainer}>
                         {errorWeather ? (<Alert text={errorWeather} />) : null}
                     <main className={`${classes.app} ${!loadingCondition 
@@ -144,7 +144,7 @@ const App = () => {
                                             
                     </main>
                 </div>
-            </React.StrictMode>
+            
     )
 }
 
