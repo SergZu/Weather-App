@@ -1,20 +1,31 @@
 import axios from "axios";
-import { setLocationAlias } from "../utils/storageUtils";
+import { OWMadapter } from "../utils/OWMDataAdapter";
+
+const WEATHER_URL = "http://api.openweathermap.org/data/2.5/onecall?";
 
 
 export default class WeatherService {
-    static async getAllData() {
-        const responce = await axios.get("http://localhost:3004/data");
-        return responce.data
-    }
-    static async getDataByCoords({lat, lon}) {
-        const responce = await axios.get("http://localhost:3004/Geo");
-        setLocationAlias({
-            name : responce.data.city.name,
-            lon,
-            lat
+    static async getAllData(data) {
+        const responces = data.map((item) => {
+            return axios.get
+                (`${WEATHER_URL}lat=${item.lat}&lon=${item.lon}&exclude=minutely,hourly,alerts&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}&units=metric`)
         });
-        return responce.data
+        const responceResults = await Promise.all(responces);
+        const result = {};
+        for (let i = 0; i < responceResults.length; i++) {
+            console.log('responce = ', responceResults[i])
+            const { name } = data[i];
+            let res = responceResults[i].status !== 200 ?
+                                                            {} :
+                                                            responceResults[i].data;
+            const weatherData = OWMadapter(res, name);                                                
+            
+            result[ name ] = weatherData;
+            
+        }
+
+        console.dir(result);
+        return result
     }
     static async getDataByName({name}) {
         const Rio = {
