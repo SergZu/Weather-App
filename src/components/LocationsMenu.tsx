@@ -42,7 +42,7 @@ const LocationsMenu = ({list, addLocation, deleteLocation, getNewLocationData, c
     const createLocationsLayout = useMemo(() => (list : Location[]) =>
         list?.map((elem, indx) => 
             (<li key={`${elem.name + elem.lon + elem.lat}`} className={classes.locationElement} data-id={indx} onClick={changeLocation} tabIndex={0}>
-                <span>{`${elem.name} - ${elem.temp ? elem.temp  : 'N/A'}`}{elem.temp && <>&deg;</>}</span>
+                <span>{`${elem.name} : ${elem.temp ? elem.temp  : 'N/A'}`}{elem.temp && <>&deg;</>}</span>
                 <SimpleBtn className={'small'} hidden={!deleteMode} onclickHandler={(evt) => {
                     evt.stopPropagation();
                     deleteLocation(elem.name)

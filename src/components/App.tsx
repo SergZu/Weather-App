@@ -19,11 +19,12 @@ export type Location = {
     lat : string;
     lon : string;
     temp? : number;
-    notEarth? : boolean
 }
 
 export type WeatherType = {
     dt : number,
+    sunrise : number,
+    sunset : number,
     main : {
         temp : number,
         temp_min : number,
@@ -40,7 +41,8 @@ export type WeatherType = {
     wind : {
         speed : number,
         deg : number
-    }
+    },
+    uvi : number
 }
 
 export type WeatherApiResponse = {
@@ -65,20 +67,19 @@ const App = () => {
         setCurrentLocation(locationId)
     }
 
-    const [fetchWeather, isWeatherLoading, errorWeather] = useLoading(async () => {
-        let weather : WeatherDataObject = await WeatherService.getAllData() as WeatherDataObject;
-        setWeatherData( weather );
-    });
 
-    const [fetchLocation, isLocationsLoading, errorLoc] = useLoading( async () => {
+    const [fetchWeather, isWeatherLoading, errorWeather] = useLoading(async () => {
+
         const data = getStorageData(StorageFuncTarget.location) as Location[] ;
         computeCurrentLocation();
         setLocationsList(data);
+
+        let weather : WeatherDataObject = await WeatherService.getAllData(data) as WeatherDataObject;
+        setWeatherData( weather );
     });
     
 
     useEffect(() => {
-        fetchLocation();
         fetchWeather();
     }, []);
 
@@ -100,7 +101,6 @@ const App = () => {
     }
 
     const deleteLocation = (locationName : string) : void => {
-        if (locationName === 'Mars') return ; // Mars location is undeletable
         const newData = locations.filter((item) => item.name !== locationName);
         setLocationsList(newData);
         setStorageData(newData, StorageFuncTarget.location);
@@ -125,14 +125,13 @@ const App = () => {
 
    
     const location = currentLocation !== -1 ? locations[currentLocation].name : '';
-    const loadingCondition = isWeatherLoading || isLocationsLoading || currentLocation === -1 || weatherData?.Mars === null;
+    const loadingCondition = isWeatherLoading || currentLocation === -1;
 
-    return (
+    return ( <React.StrictMode>
                 <div className={classes.appContainer}>
-                        {errorLoc ? (<Alert text={errorLoc} />) : null}
                         {errorWeather ? (<Alert text={errorWeather} />) : null}
                     <main className={`${classes.app} ${!loadingCondition 
-    && classes[ selectBackground( weatherData[ location ].list[0].weather.main , locations[currentLocation].notEarth ) ]}`}>
+    && classes[ selectBackground( weatherData[ location ].list[0].weather.main ) ]}`}>
                          { loadingCondition ? 
                                                 <Spinner />
                                             :   <>
@@ -145,6 +144,7 @@ const App = () => {
                                             
                     </main>
                 </div>
+            </React.StrictMode>
     )
 }
 

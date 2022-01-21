@@ -1,5 +1,4 @@
-export  const selectBackground = (weatherType : string, isMars : boolean) : string => {
-    if (isMars) return 'marsBackground'
+export  const selectBackground = (weatherType : string) : string => {
     let result = '';
     switch (weatherType) {
         case 'Clear' : 

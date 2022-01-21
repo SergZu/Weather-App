@@ -13,7 +13,6 @@ export default class WeatherService {
         const responceResults = await Promise.all(responces);
         const result = {};
         for (let i = 0; i < responceResults.length; i++) {
-            console.log('responce = ', responceResults[i])
             const { name } = data[i];
             let res = responceResults[i].status !== 200 ?
                                                             {} :
@@ -24,7 +23,6 @@ export default class WeatherService {
             
         }
 
-        console.dir(result);
         return result
     }
     static async getDataByName({name}) {

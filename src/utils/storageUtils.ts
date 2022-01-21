@@ -19,7 +19,7 @@ export const getStorageData = function(target : StorageFuncTarget) : Location[] 
     let initValue : Location[] | number;
     if (target === StorageFuncTarget.location) {
         storageData = localStorage.getItem(UserLocationsStorageKey);
-        initValue  = [{name : 'Mars', lat : '0', lon : '0', notEarth : true}];
+        initValue  = [];
     }
     if (target === StorageFuncTarget.user) {
         storageData = localStorage.getItem(CurrentUserStorageKey);

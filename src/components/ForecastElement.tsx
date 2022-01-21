@@ -16,7 +16,7 @@ const ForecastElement = ({date, tmin, tmax, description} : ForecastElementProps)
     return (
         <div className={classes.forecastElement}>
             <span>{`${targetDate.getDate()} ${months[targetDate.getMonth()]}`}</span>
-            <span>{tmin}&deg; - {tmax}&deg;</span>
+            <span>min: {tmin}&deg;&emsp;max: {tmax}&deg;</span>
             <span>{description}</span>
         </div>
     )
