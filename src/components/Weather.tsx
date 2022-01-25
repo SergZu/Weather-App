@@ -18,6 +18,10 @@ const Weather = React.memo(function Weather({location, data} : WeatherProps) {
         temp : data.list[0].main.temp,
         weather : data.list[0].weather.main,
         wind : data.list[0].wind,
+        uvi : data.list[0].uvi,
+        pressure : data.list[0].main.pressure,
+        sunset : data.list[0].sunset,
+        sunrise : data.list[0].sunrise,
         location 
     }
     const forecastData = data.list.slice(1); 

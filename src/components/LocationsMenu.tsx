@@ -45,7 +45,8 @@ const LocationsMenu = ({list, addLocation, deleteLocation, getNewLocationData, c
                 <span>{`${elem.name} : ${elem.temp ? elem.temp  : 'N/A'}`}{elem.temp && <>&deg;</>}</span>
                 <SimpleBtn className={'small'} hidden={!deleteMode} onclickHandler={(evt) => {
                     evt.stopPropagation();
-                    deleteLocation(elem.name)
+                    changeCurrentLocation(0);
+                    deleteLocation(elem.name);
                     } 
                 }>-</SimpleBtn>
             </li>))

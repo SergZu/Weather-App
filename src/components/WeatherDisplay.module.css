@@ -1,19 +1,19 @@
 .display {
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    margin-bottom: 5rem;
-    margin-top: auto;
-    color: #ccc;
+    margin: auto;
+    color: #bbb;
     gap: 1rem;
     align-items: center;
-    text-shadow: 0px 0px 5px #111;
+    text-shadow: 0px 0px 3px #000;
 }
 
 .displayWeather {
     display: grid;
     grid-template-areas: "temp weather weather"
-                         "temp wind wind";
+                         "temp wind wind"
+                         "pressure pressure pressure"
+                         "uvi uvi uvi"
+                         "suntimes suntimes suntimes";
+    margin-top: 1rem;
 }
 
 .displayInfoBlock {
@@ -47,4 +47,27 @@
     grid-area: wind;
     font-size: 1.5rem;
     letter-spacing: 0.15rem;
+}
+
+.displayAtm {
+    grid-area: pressure;
+    margin: 0.75rem auto auto auto;
+    font-size: 1.25;
+}
+
+.displayUVI {
+    grid-area: uvi;
+    margin: 0.75rem auto auto auto;
+    font-size: 1.25;
+}
+
+.suntimes {
+    grid-area: suntimes;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 1rem;
+    font-size: 1.25rem;
+    letter-spacing: 0.15;
 }

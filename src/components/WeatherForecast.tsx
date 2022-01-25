@@ -10,7 +10,8 @@ export interface ForecastProps {
 const WeatherForecast = ({data} : ForecastProps) => {
     const dataArr  : WeatherType[] = [...data];
     let layout =  dataArr.map((item) => 
-        (<ForecastElement key={item.dt} date={item.dt} tmin={item.main.temp_min} tmax={item.main.temp_max} description={item.weather.description} />)
+        (<ForecastElement key={item.dt} date={item.dt} tmin={item.main.temp_min} tmax={item.main.temp_max} 
+            description={item.weather.description} wind={item.wind} />)
         );
     
     return (

@@ -91,8 +91,8 @@ export const OWMadapter = function(responceData : OWMdata, city : string) : Weat
     const weatherDataArray : WeatherType[] = [
         {
             dt : responceData.current.dt * 1000,
-            sunrise : responceData.current.sunrise,
-            sunset : responceData.current.sunset,
+            sunrise : responceData.current.sunrise * 1000,
+            sunset : responceData.current.sunset * 1000,
             main : {
                 temp : Math.round(responceData.current.temp) ,
                 temp_min : Math.round(responceData.current.temp),
@@ -114,12 +114,12 @@ export const OWMadapter = function(responceData : OWMdata, city : string) : Weat
         }
     ]
 
-    for (let i = 0; i < 4; i++) {
+    for (let i = 1; i < 5; i++) {
 
         const day = {
             dt : responceData.daily[i].dt * 1000,
-            sunrise : responceData.daily[i].sunrise,
-            sunset : responceData.daily[i].sunset,
+            sunrise : responceData.daily[i].sunrise * 1000,
+            sunset : responceData.daily[i].sunset * 1000,
             main : {
                 temp : Math.round(responceData.daily[i].temp.day),
                 temp_min : Math.round(responceData.daily[i].temp.min),
