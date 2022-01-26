@@ -13,7 +13,7 @@ export interface WeatherProps {
 
 
 
-const Weather = React.memo(function Weather({location, data} : WeatherProps) {
+const Weather = function Weather({location, data} : WeatherProps) {
     const displayData = {
         temp : data.list[0].main.temp,
         weather : data.list[0].weather.main,
@@ -31,6 +31,6 @@ const Weather = React.memo(function Weather({location, data} : WeatherProps) {
             <WeatherForecast data={forecastData} />
         </div>
     )
-})
+}
 
 export default Weather

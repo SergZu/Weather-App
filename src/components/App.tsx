@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Weather from './Weather'
 import Dashboard from './Dashboard'
 import WeatherService from '../Api/WeatherService'
@@ -69,8 +69,9 @@ const App = () => {
 
 
     const [fetchWeather, isWeatherLoading, errorWeather] = useLoading(async () => {
-
+        
         const data = getStorageData(StorageFuncTarget.location) as Location[] ;
+        if ( !data.length ) return;
         computeCurrentLocation();
         setLocationsList(data);
 
@@ -83,31 +84,55 @@ const App = () => {
         fetchWeather();
     }, []);
 
-    const getNewLocationData = (newData : WeatherApiResponse)  => { 
-            setWeatherData( {...weatherData, [newData.city.name] : newData} );
+    const resetAppData = () => {
+        setLocationsList([]);
+        setStorageData([], StorageFuncTarget.location);
+        setStorageData(-1, StorageFuncTarget.user);
+        setWeatherData({});
     }
+
+    const getNewLocationData = useCallback((newData : WeatherApiResponse)  => { 
+                setWeatherData( {...weatherData, [newData.city.name] : newData} );
+            }, []);
     
-    const changeCurrentLocation = (newId : number) : void => {
-        setCurrentLocation(newId);
-        setStorageData(newId, StorageFuncTarget.user);
-    }
+    const changeCurrentLocation = useCallback((newId : number) : void => {
+                setCurrentLocation(newId);
+                setStorageData(newId, StorageFuncTarget.user);
+        }, []);
 
-    const addLocation = (location : Location) : boolean => {
-        if (locations.some((loc) => (loc.name === location.name && loc.lat === location.lat && loc.lon === location.lon) ) ) return false;
-        const newData = [...locations, location];
+    const addLocation = useCallback((location : Location) : boolean => {
+            if (!locations.length) {
+                setLocationsList([ location ]);
+                setStorageData([ location ], StorageFuncTarget.location);
+                setCurrentLocation(0);
+                setStorageData(0, StorageFuncTarget.user);
+            }
+            if (locations.some((loc) => (loc.name === location.name) ) ) return false;
+            const newData = [...locations, location];
+            setLocationsList(newData);
+            setStorageData(newData, StorageFuncTarget.location);
+            return true
+        }, []);
+
+    const deleteLocation = useCallback((locationName : string) : void => {
+        if (locations.length === 1) {
+            resetAppData()
+        }
+        const index = locations.findIndex((item) => item.name === locationName);
+        const newData = [...locations];
+        newData.splice(index, 1);
         setLocationsList(newData);
         setStorageData(newData, StorageFuncTarget.location);
-        return true
-    }
-
-    const deleteLocation = (locationName : string) : void => {
-        const newData = locations.filter((item) => item.name !== locationName);
-        setLocationsList(newData);
-        setStorageData(newData, StorageFuncTarget.location);
+        if (currentLocation === index) {
+            const newLocation = index !== 0 ? index - 1 : 0;
+            setCurrentLocation(newLocation);
+            setStorageData(newLocation, StorageFuncTarget.user);
+        }
         const weatherCopy = {...weatherData};
         delete weatherCopy[locationName];
         setWeatherData(weatherCopy);
-    }
+    }, []);
+    
 
     const tempArray = useMemo(() => () => {
         let temperature = {};
@@ -123,16 +148,20 @@ const App = () => {
         return result
     }, [weatherData, locations]);
 
-   
-    const location = currentLocation !== -1 ? locations[currentLocation].name : '';
-    const loadingCondition = isWeatherLoading || currentLocation === -1;
-
     return ( 
                 <div className={classes.appContainer}>
                         {errorWeather ? (<Alert text={errorWeather} />) : null}
-                    <main className={`${classes.app} ${!loadingCondition 
-    && classes[ selectBackground( weatherData[ location ].list[0].weather.main ) ]}`}>
-                         { loadingCondition ? 
+                    <main className={`${classes.app} ${!isWeatherLoading 
+    && classes[ selectBackground( locations.length ? weatherData[ locations[currentLocation].name ].list[0].weather.main : 'default') ]}`}>
+                        { (!isWeatherLoading && locations.length === 0) ?
+                            (<>
+                                <div className={classes.fallback}>
+                                    <h2 className={classes.fallbackMessage}>Locations list is empty</h2>
+                                </div>
+                                <Dashboard list={[]} addLocation={addLocation} deleteLocation={deleteLocation} 
+                                                                changeCurrentLocation={changeCurrentLocation} getNewLocationData={getNewLocationData} />
+                            </>) :
+                            isWeatherLoading ? 
                                                 <Spinner />
                                             :   <>
                                                     <Weather  data={ weatherData[locations[currentLocation].name] } 

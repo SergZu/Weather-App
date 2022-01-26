@@ -11,7 +11,7 @@ export interface locationProps {
     changeCurrentLocation : (newId : number) => void;
 }
 
-const Dashboard = React.memo(function Dashboard({list, addLocation, deleteLocation, getNewLocationData,changeCurrentLocation } : locationProps) {
+const Dashboard = function Dashboard({list, addLocation, deleteLocation, getNewLocationData,changeCurrentLocation } : locationProps){
   
     return (
         <div className={classes.dashboardContainer}>
@@ -19,6 +19,6 @@ const Dashboard = React.memo(function Dashboard({list, addLocation, deleteLocati
                 changeCurrentLocation={changeCurrentLocation} /> 
         </div>
     )
-})
+}
 
 export default Dashboard
