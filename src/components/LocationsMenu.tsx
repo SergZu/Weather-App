@@ -7,26 +7,24 @@ import { WeatherApiResponse } from './App';
 
 export interface LocationMenuProps {
     list : Location[],
-    addLocation : (location : Location) => boolean,
+    addLocation : (locationWeather : WeatherApiResponse) => void,
     deleteLocation : (locationName : string) => void,
-    getNewLocationData:(data : WeatherApiResponse) => void;
-    changeCurrentLocation: (newId : number) => void;
+    changeCurrentLocation : (newLoc : string) => void;
+    currentLocation : string;
 }
 
-const LocationsMenu = ({list, addLocation, deleteLocation, getNewLocationData, changeCurrentLocation} : LocationMenuProps) => {
+const LocationsMenu = ({list, addLocation, deleteLocation, changeCurrentLocation, currentLocation} : LocationMenuProps) => {
     const [isModalOpen, toggleModal] = useState(false);
     const [deleteMode, toggleDeleteMode] = useState(false);
 
     const openModal = () => {
         if (isModalOpen) return ;
         toggleModal(true);
-        console.log('opened')
     }
 
     const closeModal = () => {
         if (!isModalOpen) return ;
         toggleModal(false);
-        console.log('closed')
     }
 
     const toggleDelete = () => {
@@ -35,26 +33,25 @@ const LocationsMenu = ({list, addLocation, deleteLocation, getNewLocationData, c
 
     const changeLocation= (evt : React.MouseEvent<HTMLLIElement>) : void => {
         const target = evt.currentTarget.dataset.id;
-        changeCurrentLocation( Number(target) );
+        changeCurrentLocation( target );
     }
 
 
     const createLocationsLayout = useMemo(() => (list : Location[]) =>
-        list?.map((elem, indx) => 
-            (<li key={`${elem.name + elem.lon + elem.lat}`} className={classes.locationElement} data-id={indx} onClick={changeLocation} tabIndex={0}>
+        list?.map((elem) => 
+            (<li key={`${elem.name + elem.lon + elem.lat}`} className={`${classes.locationElement} ${currentLocation === elem.name ? classes.active : ''}`} data-id={elem.name} onClick={changeLocation} tabIndex={0}>
                 <span>{`${elem.name} : ${elem.temp ? elem.temp  : 'N/A'}`}{elem.temp && <>&deg;</>}</span>
                 <SimpleBtn className={'small'} hidden={!deleteMode} onclickHandler={(evt) => {
                     evt.stopPropagation();
-                    changeCurrentLocation(0);
                     deleteLocation(elem.name);
                     } 
                 }>-</SimpleBtn>
             </li>))
-            , [list, deleteMode]) 
+            , [list, deleteMode, currentLocation]) 
    
     return (
         <div className={classes.locationsBoard}>            
-            {isModalOpen && (<SearchModal closeModal={closeModal} addLocation={addLocation} getNewLocationData={getNewLocationData} />)}
+            {isModalOpen && (<SearchModal closeModal={closeModal} addLocation={addLocation} />)}
             <ul className={classes.locationList}>
             {createLocationsLayout(list)}
             </ul>

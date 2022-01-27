@@ -5,6 +5,7 @@ interface alertProps {
 }
 
 const alert = ({text} : alertProps) : JSX.Element => {
+    console.log(text);
     return (
         <h3 style={{color : 'red'}}>{text}</h3>
     )

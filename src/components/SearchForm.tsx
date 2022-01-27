@@ -1,35 +1,52 @@
 import React, {useRef, useState} from 'react'
 import WeatherService from '../Api/WeatherService';
 import SimpleBtn from '../UI/SimpleBtn/SimpleBtn';
-import { Location } from './App';
 import { WeatherApiResponse } from './App';
 
 export interface SearchFormProps{
-    addLocation : (location : Location) => boolean;
-    getNewLocationData: (data : WeatherApiResponse) => void;
+    addLocation : (locationWeather : WeatherApiResponse) => void
 }
 
-const SearchForm = ({addLocation, getNewLocationData } : SearchFormProps) => {
-    const [responseData, setResponseData] = useState(null);
+export type GeocodingApiObj = {
+    country : string;
+    lat: number;
+    local_names: {[inx : string] : string};
+    lon: number;
+    name: string;
+    state: string;
+}
+
+
+const SearchForm = ({addLocation} : SearchFormProps) => {
+    const [responseData, setResponseData] = useState<GeocodingApiObj[]|null>(null);
     const searchInput = useRef(null);
+
     const searchLocation = async (evt) => {
         evt.preventDefault();
         const value = searchInput.current.value;
-        const data = await WeatherService.getDataByName({name : value});
+        const data : GeocodingApiObj[]|null = await WeatherService.getDataByName({name : value}) as GeocodingApiObj[]|null;
         setResponseData(data);
+        
     }
-    const addNewLocationData = (data) => {
-        const lat = String(Math.floor(Math.random() * 90) );
-        const lon = String(Math.floor(Math.random() * 90) );
-        addLocation({name : data.city.name, lat, lon});
-        getNewLocationData(data)
+    const addNewLocationData = async (data) => {
+        const newData = {
+            name : data.name,
+            lat : data.lat,
+            lon : data.lon
+        }
+        const weatherData = await WeatherService.getLocationData(newData) as WeatherApiResponse;  
+        addLocation(weatherData);
+    }
 
-    }
     const responseLayout = responseData?.map((data) => (
-        <li key={`${data.city.name}${data.list[0].dt}` }>
-            <h3>{data.city.name}</h3>
-            <span>Some temperature</span>
-            <SimpleBtn onclickHandler={() => { addNewLocationData(data) } }>Add to list</SimpleBtn>
+        <li key={`${data.name}${data.lat}` }>
+            <h3>{`Name : ${data.name}`}</h3>
+            <span>{`Country : ${data.country}`}</span>
+            <span>{`Lat =${data.lat} Lon =${data.lon}`}</span>
+            <SimpleBtn onclickHandler={(evt) => {
+                evt.stopPropagation();
+                addNewLocationData(data);
+                } }>Add to list</SimpleBtn>
         </li>
     ))
     return (

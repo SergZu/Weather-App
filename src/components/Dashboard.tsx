@@ -5,18 +5,18 @@ import LocationsMenu from './LocationsMenu'
 
 export interface locationProps {
     list : Location[],
-    addLocation : (location : Location) => boolean,
+    addLocation : (locationWeather : WeatherApiResponse) => void,
     deleteLocation : (locationName : string) => void,
-    getNewLocationData: (data : WeatherApiResponse) => void;
-    changeCurrentLocation : (newId : number) => void;
+    changeCurrentLocation : (newLoc : string) => void;
+    currentLocation : string;
 }
 
-const Dashboard = function Dashboard({list, addLocation, deleteLocation, getNewLocationData,changeCurrentLocation } : locationProps){
+const Dashboard = function Dashboard({list, addLocation, deleteLocation, changeCurrentLocation, currentLocation } : locationProps){
   
     return (
         <div className={classes.dashboardContainer}>
-            <LocationsMenu list={list} addLocation={addLocation} deleteLocation={deleteLocation} getNewLocationData={getNewLocationData}
-                changeCurrentLocation={changeCurrentLocation} /> 
+            <LocationsMenu list={list} addLocation={addLocation} deleteLocation={deleteLocation} changeCurrentLocation={changeCurrentLocation}
+            currentLocation={currentLocation} /> 
         </div>
     )
 }

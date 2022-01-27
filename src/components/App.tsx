@@ -8,6 +8,7 @@ import { getStorageData, setStorageData, StorageFuncTarget } from '../utils/stor
 import classes from './App.module.css'
 import Alert from '../UI/Alert/Alert'
 import { selectBackground } from '../utils/selectBackground'
+import { createLocationsList } from '../utils/createLocationsList'
 
 //ToDo
 //Create dropbox with text UI component
@@ -16,8 +17,8 @@ import { selectBackground } from '../utils/selectBackground'
 
 export type Location = {
     name : string;
-    lat : string;
-    lon : string;
+    lat : number;
+    lon : number;
     temp? : number;
 }
 
@@ -48,6 +49,9 @@ export type WeatherType = {
 export type WeatherApiResponse = {
     cod : string,
     list : WeatherType[],
+    lon : number,
+    lat : number,
+    time_offset : number,
     city : {
         name : string
     }
@@ -59,22 +63,17 @@ export type WeatherDataObject = {
 
 const App = () => {
     const [weatherData, setWeatherData] = useState<WeatherDataObject>({});
-    const [locations, setLocationsList] = useState<Location[]>([]);
-    const [currentLocation, setCurrentLocation] = useState<number>(-1);
-
-    const computeCurrentLocation = () => {
-        const locationId = getStorageData(StorageFuncTarget.user) as number;
-        setCurrentLocation(locationId)
-    }
-
+    const [currentLocation, setCurrentLocation] = useState<string>('');
 
     const [fetchWeather, isWeatherLoading, errorWeather] = useLoading(async () => {
         
         const data = getStorageData(StorageFuncTarget.location) as Location[] ;
-        if ( !data.length ) return;
-        computeCurrentLocation();
-        setLocationsList(data);
+        if ( !data.length ) {
+            setStorageData('', StorageFuncTarget.current);
+            return;
+        }
 
+        computeCurrentLocation();
         let weather : WeatherDataObject = await WeatherService.getAllData(data) as WeatherDataObject;
         setWeatherData( weather );
     });
@@ -85,53 +84,65 @@ const App = () => {
     }, []);
 
     const resetAppData = () => {
-        setLocationsList([]);
         setStorageData([], StorageFuncTarget.location);
-        setStorageData(-1, StorageFuncTarget.user);
+        setStorageData('', StorageFuncTarget.current);
         setWeatherData({});
+        setCurrentLocation('');
     }
 
-    const getNewLocationData = useCallback((newData : WeatherApiResponse)  => { 
+    const changeCurrentLocation = (newLoc : string) : void => {
+        setStorageData(newLoc, StorageFuncTarget.current);
+        setCurrentLocation(newLoc);
+};
+
+    const computeCurrentLocation = () => {
+        const locationId = getStorageData(StorageFuncTarget.current) as string;
+        setCurrentLocation(locationId)
+    }
+
+
+
+    const setNewLocationData = (newData : WeatherApiResponse)  => { 
+                newData = Object.assign({}, newData);
                 setWeatherData( {...weatherData, [newData.city.name] : newData} );
-            }, []);
-    
-    const changeCurrentLocation = useCallback((newId : number) : void => {
-                setCurrentLocation(newId);
-                setStorageData(newId, StorageFuncTarget.user);
-        }, []);
+            };
 
-    const addLocation = useCallback((location : Location) : boolean => {
-            if (!locations.length) {
-                setLocationsList([ location ]);
-                setStorageData([ location ], StorageFuncTarget.location);
-                setCurrentLocation(0);
-                setStorageData(0, StorageFuncTarget.user);
+    const addLocation = (locationWeather : WeatherApiResponse) => {
+            const locName = locationWeather.city.name;
+            const locInfo : Location = {name : locName, lat : locationWeather.lat, lon : locationWeather.lon};
+            if (weatherData.hasOwnProperty(locName)) return
+
+            const locations = createLocationsList(weatherData);
+            locations.push(locInfo);
+            setStorageData(locations, StorageFuncTarget.location);
+            if (currentLocation === '') {
+                setStorageData(locName, StorageFuncTarget.current);
+                computeCurrentLocation()
             }
-            if (locations.some((loc) => (loc.name === location.name) ) ) return false;
-            const newData = [...locations, location];
-            setLocationsList(newData);
-            setStorageData(newData, StorageFuncTarget.location);
-            return true
-        }, []);
+            setNewLocationData(locationWeather);
+        }
 
-    const deleteLocation = useCallback((locationName : string) : void => {
-        if (locations.length === 1) {
-            resetAppData()
+    const deleteLocation = (locationName : string) : void => {
+        if (Object.keys(weatherData).length === 1) {
+            resetAppData();
+            return
         }
-        const index = locations.findIndex((item) => item.name === locationName);
-        const newData = [...locations];
-        newData.splice(index, 1);
-        setLocationsList(newData);
-        setStorageData(newData, StorageFuncTarget.location);
-        if (currentLocation === index) {
-            const newLocation = index !== 0 ? index - 1 : 0;
-            setCurrentLocation(newLocation);
-            setStorageData(newLocation, StorageFuncTarget.user);
+
+        const locations = createLocationsList(weatherData);
+        const newList = locations.filter((item) => item.name !== locationName);
+        setStorageData(newList, StorageFuncTarget.location);
+
+        const newWeatherData : WeatherDataObject = {};
+        for (let location in weatherData) {
+            if (location !== locationName) newWeatherData[location] = weatherData[location];
         }
-        const weatherCopy = {...weatherData};
-        delete weatherCopy[locationName];
-        setWeatherData(weatherCopy);
-    }, []);
+        if (currentLocation === locationName) {
+            const newCurrentLocation = Object.keys(newWeatherData)[0];
+            setStorageData(newCurrentLocation, StorageFuncTarget.current);
+            changeCurrentLocation(newCurrentLocation);
+        }
+        setWeatherData(newWeatherData);
+    }
     
 
     const tempArray = useMemo(() => () => {
@@ -140,34 +151,35 @@ const App = () => {
             const locationName = weatherData[location].city.name;
             temperature[locationName] = weatherData[location].list[0].main.temp;
         }
+        const locations = createLocationsList(weatherData);
         const result = locations.map((location) => {
             let { name } = location;
             
             return ({...location, 
             temp : temperature[name]})}) 
         return result
-    }, [weatherData, locations]);
+    }, [weatherData]);
 
     return ( 
                 <div className={classes.appContainer}>
                         {errorWeather ? (<Alert text={errorWeather} />) : null}
                     <main className={`${classes.app} ${!isWeatherLoading 
-    && classes[ selectBackground( locations.length ? weatherData[ locations[currentLocation].name ].list[0].weather.main : 'default') ]}`}>
-                        { (!isWeatherLoading && locations.length === 0) ?
+    && classes[ selectBackground( Object.keys(weatherData).length ? weatherData[currentLocation].time_offset : null) ]}`}>
+                        { (!isWeatherLoading && !Object.keys(weatherData).length) ?
                             (<>
                                 <div className={classes.fallback}>
                                     <h2 className={classes.fallbackMessage}>Locations list is empty</h2>
                                 </div>
                                 <Dashboard list={[]} addLocation={addLocation} deleteLocation={deleteLocation} 
-                                                                changeCurrentLocation={changeCurrentLocation} getNewLocationData={getNewLocationData} />
+                                                                changeCurrentLocation={changeCurrentLocation} currentLocation='' />
                             </>) :
                             isWeatherLoading ? 
                                                 <Spinner />
                                             :   <>
-                                                    <Weather  data={ weatherData[locations[currentLocation].name] } 
-                                                                location={locations[currentLocation].name} />
+                                                    <Weather  data={ weatherData[currentLocation] } 
+                                                                location={currentLocation} />
                                                     <Dashboard list={tempArray()} addLocation={addLocation} deleteLocation={deleteLocation} 
-                                                                changeCurrentLocation={changeCurrentLocation} getNewLocationData={getNewLocationData} />
+                                                                changeCurrentLocation={changeCurrentLocation} currentLocation={currentLocation} />
                                                 </>                    
                         } 
                                             
