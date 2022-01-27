@@ -145,7 +145,10 @@ export const OWMadapter = function(responceData : OWMdata, city : string) : Weat
 
     const result : WeatherApiResponse = {
         cod : "OK",
-        list : weatherDataArray,
+        list : weatherDataArray,    
+        lat : responceData.lat,
+        lon : responceData.lon,
+        time_offset : responceData.timezone_offset * 1000,
         city : {
             name : city
         }
