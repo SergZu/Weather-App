@@ -39,4 +39,9 @@ export default class WeatherService {
         const response = await axios.get(`${GEOCODING_API_URL}q=${ encodeURIComponent(name) }&limit=5&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`);
         return response.status !== 200 ?  null : response.data
     }
+
+    static async getDataByCoords({lat, lon}) {
+        const response = await axios.get(`${GEOREVERSE_API_URL}lat=${lat}&lon=${lon}&limit=1&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`);
+        return response.status !== 200 ?  null : response.data
+    }
 }

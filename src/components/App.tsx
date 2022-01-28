@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Weather from './Weather'
 import Dashboard from './Dashboard'
 import WeatherService from '../Api/WeatherService'
@@ -10,10 +10,6 @@ import Alert from '../UI/Alert/Alert'
 import { selectBackground } from '../utils/selectBackground'
 import { createLocationsList } from '../utils/createLocationsList'
 
-//ToDo
-//Create dropbox with text UI component
-//Create input UI component
-//Refactor - create alert component for errors
 
 export type Location = {
     name : string;

@@ -2,20 +2,11 @@ import React, {useRef, useState} from 'react'
 import WeatherService from '../Api/WeatherService';
 import SimpleBtn from '../UI/SimpleBtn/SimpleBtn';
 import { WeatherApiResponse } from './App';
+import { GeocodingApiObj } from './SearchModal';
 
 export interface SearchFormProps{
     addLocation : (locationWeather : WeatherApiResponse) => void
 }
-
-export type GeocodingApiObj = {
-    country : string;
-    lat: number;
-    local_names: {[inx : string] : string};
-    lon: number;
-    name: string;
-    state: string;
-}
-
 
 const SearchForm = ({addLocation} : SearchFormProps) => {
     const [responseData, setResponseData] = useState<GeocodingApiObj[]|null>(null);
