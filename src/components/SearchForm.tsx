@@ -5,10 +5,11 @@ import { WeatherApiResponse } from './App';
 import { GeocodingApiObj } from './SearchModal';
 
 export interface SearchFormProps{
-    addLocation : (locationWeather : WeatherApiResponse) => void
+    addLocation : (locationWeather : WeatherApiResponse) => void;
+    closeModal : () => void;
 }
 
-const SearchForm = ({addLocation} : SearchFormProps) => {
+const SearchForm = ({addLocation, closeModal} : SearchFormProps) => {
     const [responseData, setResponseData] = useState<GeocodingApiObj[]|null>(null);
     const searchInput = useRef(null);
 
@@ -27,6 +28,7 @@ const SearchForm = ({addLocation} : SearchFormProps) => {
         }
         const weatherData = await WeatherService.getLocationData(newData) as WeatherApiResponse;  
         addLocation(weatherData);
+        closeModal();
     }
 
     const responseLayout = responseData?.map((data) => (

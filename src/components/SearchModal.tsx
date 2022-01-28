@@ -48,6 +48,7 @@ const SearchModal = ({closeModal, addLocation}) => {
                 addLocation(weatherData);
                 setGeoError(null);
                 setGeoPositionInProgress(false);
+                closeModal();
             }
 
             const onError = (error) => {
@@ -65,7 +66,7 @@ const SearchModal = ({closeModal, addLocation}) => {
             {geoError && <Alert text={geoError} />}
             <div>
                 <button onClick={onGeoClickHandler}>Get My Position</button>
-                <SearchForm addLocation={addLocation} />
+                <SearchForm addLocation={addLocation} closeModal={closeModal} />
             </div>
             <SimpleBtn className={classes.closeBtn} onclickHandler={closeModal}>&#10008;</SimpleBtn>
         </div>
