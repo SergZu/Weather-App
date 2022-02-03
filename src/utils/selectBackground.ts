@@ -1,11 +1,13 @@
+export type timePref = {
+    sunrise : number;
+    sunset : number
+}
 
-export  const selectBackground = (timezoneOffset : number | null ) : string => {
-    if (timezoneOffset === null) return 'defaultBackground';
-    const date = new Date;
-    const hours = date.getUTCHours() + 
-                                        timezoneOffset < 0 ? Math.ceil(timezoneOffset / 3600000) : Math.floor(timezoneOffset / 3600000);
+export  const selectBackground = (options : timePref | null ) : string => {
+    if (options === null) return 'defaultBackground';
+    const date = Date.now();
     
-    const isDayTime = hours > 6 && hours < 18;
+    const isDayTime = date > options.sunrise && date < options.sunset;
    
-    return isDayTime ? 'clearSkyBackground' : 'rainyBackground';
+    return isDayTime ? 'clearSkyBackground' : 'nightBackground';
 }

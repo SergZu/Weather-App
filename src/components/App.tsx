@@ -160,7 +160,10 @@ const App = () => {
                 <div className={classes.appContainer}>
                         {errorWeather ? (<Alert text={errorWeather} />) : null}
                     <main className={`${classes.app} ${!isWeatherLoading 
-    && classes[ selectBackground( Object.keys(weatherData).length ? weatherData[currentLocation].time_offset : null) ]}`}>
+    && classes[ selectBackground( Object.keys(weatherData).length ? {
+                                                                        sunrise : weatherData[currentLocation].list[0].sunrise,
+                                                                        sunset : weatherData[currentLocation].list[0].sunset
+                                                                     } : null) ]}`}>
                         { (!isWeatherLoading && !Object.keys(weatherData).length) ?
                             (<>
                                 <div className={classes.fallback}>

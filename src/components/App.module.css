@@ -28,10 +28,6 @@ html {
     border-radius: 10px;
 }
 
-.marsBackground {    
-    background-image: url('../assets/Mars-surf-med.jpg');
-}
-
 .defaultBackground {
     background-image: url('../assets/Storm-sm.jpg');
 }
@@ -40,24 +36,12 @@ html {
     background-image: url('../assets/sunny.jpg');
 }
 
-.cloudyBackground {
-    background-image: url('../assets/cloud.jpg');
+.nightBackground {
+    background-image: url('../assets/nightBackground-min.png');
 }
 
-.rainyBackground {
-    background-image: url('../assets/rain.jpg');
-}
-
-.snowyBackground {
-    background-image: url('../assets/snow.jpg');
-}
-
-.foggyBackground {
-    background-image: url('../assets/fog.jpg');
-}
-
-.marsBackground, .defaultBackground, .clearSkyBackground, .cloudyBackground, .rainyBackground, .snowyBackground, .foggyBackground {   
-    background-size: cover;
+.defaultBackground, .clearSkyBackground, .nightBackground {   
+    background-size: 100% 100%;
     background-repeat: no-repeat;
 }
 
