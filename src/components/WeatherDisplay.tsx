@@ -18,6 +18,7 @@ export interface DisplayProps {
         pressure : number;
         sunset : number;
         sunrise : number;
+        offset : number;
         location : string;
     },    
     currentTime : number;
@@ -28,7 +29,7 @@ const WeatherDisplay = ({data, currentTime} : DisplayProps) => {
         <div className={classes.display}>
             <div className={classes.displayInfoBlock}>
                 <span className={classes.displayLocation}>{data.location}</span>
-                <CurrentDate currentTime={currentTime} />                        
+                <CurrentDate currentTime={currentTime} offset={data.offset} />                        
             </div>
             <div className={classes.displayWeather}>
                 <span className={classes.displayTemp}>{data.temp}&deg;</span>
@@ -37,8 +38,8 @@ const WeatherDisplay = ({data, currentTime} : DisplayProps) => {
                 <span className={classes.displayAtm}>{`Atm - ${data.pressure} hPa`}</span>
                 <span className={classes.displayUVI}>{`UV Index - ${data.uvi}`}</span>
                 <div className={classes.suntimes}>
-                    <span>{`Sunrise - ${convertUnixToHM(data.sunrise)}`}</span>
-                    <span>{`Sunset - ${convertUnixToHM(data.sunset)}`}</span>
+                    <span>{`Sunrise - ${convertUnixToHM(data.sunrise, data.offset)}`}</span>
+                    <span>{`Sunset - ${convertUnixToHM(data.sunset, data.offset)}`}</span>
                 </div>
             </div>
         </div>

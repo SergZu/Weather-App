@@ -32,6 +32,7 @@ const LocationsMenu = ({list, addLocation, deleteLocation, changeCurrentLocation
     }
 
     const changeLocation= (evt : React.MouseEvent<HTMLLIElement>) : void => {
+        evt.currentTarget.blur();
         const target = evt.currentTarget.dataset.id;
         changeCurrentLocation( target );
     }
@@ -39,7 +40,8 @@ const LocationsMenu = ({list, addLocation, deleteLocation, changeCurrentLocation
 
     const createLocationsLayout = useMemo(() => (list : Location[]) =>
         list?.map((elem) => 
-            (<li key={`${elem.name + elem.lon + elem.lat}`} className={`${classes.locationElement} ${currentLocation === elem.name ? classes.active : ''}`} data-id={elem.name} onClick={changeLocation} tabIndex={0}>
+            (<li key={`${elem.name + elem.lon + elem.lat}`} className={`${classes.locationElement} ${currentLocation === elem.name ?
+                                                 classes.active : '' }`} data-id={elem.name} onClick={changeLocation} tabIndex={0}>
                 <span>{`${elem.name} : ${elem.temp ? elem.temp  : 'N/A'}`}{elem.temp && <>&deg;</>}</span>
                 <SimpleBtn className={'small'} hidden={!deleteMode} onclickHandler={(evt) => {
                     evt.stopPropagation();

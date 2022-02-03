@@ -23,6 +23,7 @@ const Weather = function Weather({location, data, currentTime} : WeatherProps) {
         pressure : data.list[0].main.pressure,
         sunset : data.list[0].sunset,
         sunrise : data.list[0].sunrise,
+        offset : data.time_offset,
         location 
     }
     const forecastData = data.list.slice(1); 

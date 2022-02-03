@@ -92,7 +92,7 @@ const App = () => {
     useEffect(() => {
         const timeout = setTimeout(async () => {
             fetchWeather();
-        }, 600000);
+        }, 900000);
         return () => {
             clearTimeout(timeout)
         }    
@@ -181,7 +181,7 @@ const App = () => {
                     <main className={`${classes.app} ${!isWeatherLoading 
     && classes[ selectBackground( Object.keys(weatherData).length ? {
                                                                         sunrise : weatherData[currentLocation].list[0].sunrise,
-                                                                        sunset : weatherData[currentLocation].list[0].sunset
+                                                                        sunset : weatherData[currentLocation].list[0].sunset,
                                                                      } : null) ]}`}>
                         { (!isWeatherLoading && !Object.keys(weatherData).length) ?
                             (<>
