@@ -8,12 +8,13 @@ import { WeatherApiResponse } from './App'
 
 export interface WeatherProps {
     data : WeatherApiResponse;
-    location : string
+    location : string;
+    currentTime : number;
 }
 
 
 
-const Weather = function Weather({location, data} : WeatherProps) {
+const Weather = function Weather({location, data, currentTime} : WeatherProps) {
     const displayData = {
         temp : data.list[0].main.temp,
         weather : data.list[0].weather.main,
@@ -27,7 +28,7 @@ const Weather = function Weather({location, data} : WeatherProps) {
     const forecastData = data.list.slice(1); 
     return (
         <div className={classes.weatherBlock}>
-           <WeatherDisplay data={displayData} />
+           <WeatherDisplay data={displayData} currentTime={currentTime} />
             <WeatherForecast data={forecastData} />
         </div>
     )

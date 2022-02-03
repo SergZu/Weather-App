@@ -60,6 +60,7 @@ export type WeatherDataObject = {
 const App = () => {
     const [weatherData, setWeatherData] = useState<WeatherDataObject>({});
     const [currentLocation, setCurrentLocation] = useState<string>('');
+    const [currentTime, setCurrentTime] = useState<number>( Date.now() );
 
     const [fetchWeather, isWeatherLoading, errorWeather] = useLoading(async () => {
         
@@ -78,6 +79,24 @@ const App = () => {
     useEffect(() => {
         fetchWeather();
     }, []);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setCurrentTime(Date.now())
+        }, 60000);
+        return () => {
+            clearTimeout(timeout)
+        }
+    }, [currentTime]);
+
+    useEffect(() => {
+        const timeout = setTimeout(async () => {
+            fetchWeather();
+        }, 600000);
+        return () => {
+            clearTimeout(timeout)
+        }    
+    }, [])
 
     const resetAppData = () => {
         setStorageData([], StorageFuncTarget.location);
@@ -176,7 +195,7 @@ const App = () => {
                                                 <Spinner />
                                             :   <>
                                                     <Weather  data={ weatherData[currentLocation] } 
-                                                                location={currentLocation} />
+                                                                location={currentLocation} currentTime={currentTime} />
                                                     <Dashboard list={tempArray()} addLocation={addLocation} deleteLocation={deleteLocation} 
                                                                 changeCurrentLocation={changeCurrentLocation} currentLocation={currentLocation} />
                                                 </>                    

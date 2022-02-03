@@ -19,15 +19,16 @@ export interface DisplayProps {
         sunset : number;
         sunrise : number;
         location : string;
-    }
+    },    
+    currentTime : number;
 }
 
-const WeatherDisplay = ({data} : DisplayProps) => {
+const WeatherDisplay = ({data, currentTime} : DisplayProps) => {
     return (
         <div className={classes.display}>
             <div className={classes.displayInfoBlock}>
                 <span className={classes.displayLocation}>{data.location}</span>
-                <CurrentDate />                        
+                <CurrentDate currentTime={currentTime} />                        
             </div>
             <div className={classes.displayWeather}>
                 <span className={classes.displayTemp}>{data.temp}&deg;</span>
