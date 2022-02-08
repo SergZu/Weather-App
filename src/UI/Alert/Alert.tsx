@@ -1,13 +1,13 @@
 import React from 'react'
+import classes from './Alert.module.css'
 
 interface alertProps {
     text : string
 }
 
 const alert = ({text} : alertProps) : JSX.Element => {
-    console.log(text);
     return (
-        <h3 style={{color : 'red'}}>{text}</h3>
+        <h3 className={classes.alert}>{text}</h3>
     )
 }
 

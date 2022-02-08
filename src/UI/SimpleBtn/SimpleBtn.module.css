@@ -14,14 +14,25 @@
 .btn:active {
     transform: translate(3px, 3px);
 }
+.invisible {
+    visibility: hidden;
+}
+
+.closeBtn {
+    margin-left: auto;
+    margin-right: 5px;
+    margin-top: 5px;
+    color: #ddd;
+    border: none;
+    background-color: transparent;
+}
 
 .small {
     width: 15px;
     height: 15px;
     font-size: 1.1rem;
-    margin: 5px auto;
+    margin: auto;
 }
 
-.invisible {
-    visibility: hidden;
-}
+
+

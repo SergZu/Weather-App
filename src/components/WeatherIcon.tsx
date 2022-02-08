@@ -8,16 +8,16 @@ const defaults = {
     animate: true
   };
 
-const WeatherIcon = ({type}) => {
+const WeatherIcon = ({type, currentTime, offset}) => {
     let wicon;
-    let date = new Date().getHours();
-    const isNight = date < 6 && date > 22;  
+    let date = new Date(currentTime + offset).getUTCHours();
+    const isNight = date < 6 || date > 20;  
     switch(type) {
         case 'Clear' :
             wicon = isNight ? 'CLEAR_NIGHT' : 'CLEAR_DAY';
             break;
         case 'Clouds' :
-            wicon = isNight ? 'PARTLY_CLOUD_NIGHT' : 'PARTLY_CLOUD_DAY';
+            wicon = isNight ? 'PARTLY_CLOUDY_NIGHT' : 'PARTLY_CLOUDY_DAY';
             break;
         case 'Mist' :
         case 'Fog' :

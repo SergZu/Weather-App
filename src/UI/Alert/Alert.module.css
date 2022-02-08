@@ -1,0 +1,7 @@
+.alert {
+    display : absolute;
+    top: 20%;
+    left: 40%;
+    background-color: #333;
+    text-align: center;
+}

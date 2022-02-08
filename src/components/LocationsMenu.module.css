@@ -6,6 +6,7 @@
     margin-right: 10px;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 1.25rem;
+    overflow-y: auto; 
     color: #ddd;
 }
 
@@ -17,7 +18,7 @@
     margin-left: 10px;
     padding-right: 15px;
     padding-left: 5px;
-    margin-top: 15px;           
+    margin-top: 15px;          
 }
 
 .locationElement {
@@ -48,4 +49,12 @@
 .active {
     transform: scale(1.1);
     color: #adff2f;
+}
+
+.btnBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+    gap: 1rem;
 }

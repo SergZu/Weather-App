@@ -31,23 +31,38 @@ const LocationsMenu = ({list, addLocation, deleteLocation, changeCurrentLocation
         toggleDeleteMode(() => !deleteMode)
     }
 
-    const changeLocation= (evt : React.MouseEvent<HTMLLIElement>) : void => {
+    const changeLocation = (evt : React.MouseEvent<HTMLLIElement>) : void => {
         evt.currentTarget.blur();
         const target = evt.currentTarget.dataset.id;
         changeCurrentLocation( target );
     }
 
+    const onKeyPressHandler = (evt : React.KeyboardEvent<HTMLLIElement>) => {
+        if (evt.key === 'Enter') {
+            const target = evt.currentTarget.dataset.id;
+            changeCurrentLocation( target );
+        }
+    }       
+
+
+        
 
     const createLocationsLayout = useMemo(() => (list : Location[]) =>
         list?.map((elem) => 
-            (<li key={`${elem.name + elem.lon + elem.lat}`} className={`${classes.locationElement} ${currentLocation === elem.name ?
-                                                 classes.active : '' }`} data-id={elem.name} onClick={changeLocation} tabIndex={0}>
-                <span>{`${elem.name} : ${elem.temp ? elem.temp  : 'N/A'}`}{elem.temp && <>&deg;</>}</span>
-                <SimpleBtn className={'small'} hidden={!deleteMode} onclickHandler={(evt) => {
-                    evt.stopPropagation();
-                    deleteLocation(elem.name);
-                    } 
-                }>-</SimpleBtn>
+            (<li key={`${elem.name + elem.lon + elem.lat}`} 
+                className={`${classes.locationElement} ${currentLocation === elem.name ? classes.active : '' }`} 
+                data-id={elem.name} onClick={changeLocation} tabIndex={0} onKeyPress={onKeyPressHandler}>
+                    <span>
+                        {`${elem.name} : ${elem.temp !== undefined ? elem.temp  : 'N/A'}`}{(elem.temp !== undefined) && (<>&deg;</>)}
+                    </span>
+                    <SimpleBtn className={'small'} hidden={!deleteMode} 
+                        onclickHandler={(evt) => {
+                            evt.stopPropagation();
+                            deleteLocation(elem.name);
+                            } 
+                    }>
+                        &minus;
+                    </SimpleBtn>
             </li>))
             , [list, deleteMode, currentLocation]) 
    
@@ -55,7 +70,7 @@ const LocationsMenu = ({list, addLocation, deleteLocation, changeCurrentLocation
         <div className={classes.locationsBoard}>            
             {isModalOpen && (<SearchModal closeModal={closeModal} addLocation={addLocation} />)}
             <ul className={classes.locationList}>
-            {createLocationsLayout(list)}
+                {createLocationsLayout(list)}
             </ul>
             <div className={classes.btnBlock}>
                 <SimpleBtn hidden={false} onclickHandler={openModal} >&#43;</SimpleBtn>

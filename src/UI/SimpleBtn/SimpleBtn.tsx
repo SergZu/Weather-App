@@ -9,8 +9,16 @@ export interface SimpleBtnProps {
 }
 
 const SimpleBtn = ({children, onclickHandler, className, hidden} : SimpleBtnProps) => {
+    const onkeypressedHandler : React.KeyboardEventHandler = (evt) => {
+        evt.preventDefault();
+        if (evt.key === 'Enter') {
+            onclickHandler(evt);
+        }
+    }
     return (
-        <button className={`${classes.btn} ${classes[className]} ${hidden ? classes.invisible : null}`} onClick={onclickHandler}>
+        <button 
+            className={`${classes.btn} ${classes[className] !== undefined ? classes[className] : ''} ${hidden ? classes.invisible : ''}`} 
+            onClick={onclickHandler} onKeyPress={onkeypressedHandler}>
            {children}
         </button>
     )

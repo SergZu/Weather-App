@@ -3,6 +3,9 @@ import WeatherService from '../Api/WeatherService';
 import SimpleBtn from '../UI/SimpleBtn/SimpleBtn';
 import { WeatherApiResponse } from './App';
 import { GeocodingApiObj } from './SearchModal';
+import classes from './SearchForm.module.css'
+import useLoading from '../hooks/useLoading';
+import Spinner from '../UI/spinner/Spinner';
 
 export interface SearchFormProps{
     addLocation : (locationWeather : WeatherApiResponse) => void;
@@ -13,11 +16,18 @@ const SearchForm = ({addLocation, closeModal} : SearchFormProps) => {
     const [responseData, setResponseData] = useState<GeocodingApiObj[]|null>(null);
     const searchInput = useRef(null);
 
+    let [fetchLocation, isLocationsLoading, errorLocation] = useLoading(async (value) => {
+        if (value !== null) {
+            const data : GeocodingApiObj[]|null = await WeatherService.getDataByName({name : value}) as GeocodingApiObj[]|null;
+            setResponseData(data);
+        }
+    })
+
     const searchLocation = async (evt) => {
         evt.preventDefault();
+        evt.currentTarget.blur();
         const value = searchInput.current.value;
-        const data : GeocodingApiObj[]|null = await WeatherService.getDataByName({name : value}) as GeocodingApiObj[]|null;
-        setResponseData(data);
+        await fetchLocation(value)
         
     }
     const addNewLocationData = async (data) => {
@@ -32,25 +42,32 @@ const SearchForm = ({addLocation, closeModal} : SearchFormProps) => {
     }
 
     const responseLayout = responseData?.map((data) => (
-        <li key={`${data.name}${data.lat}` }>
-            <h3>{`Name : ${data.name}`}</h3>
-            <span>{`Country : ${data.country}`}</span>
-            <span>{`Lat =${data.lat} Lon =${data.lon}`}</span>
+        <li key={`${data.name}${data.lat}` } className={classes['locationSearch-ListItem']}>
+            <h3 className={classes['locationSearch-LocationName']}>{`Name : ${data.name}`}</h3>
+            <span className={classes['locationSearch-LocationCountry']}>{`Country : ${data.country}`}</span>
+            <span className={classes['locationSearch-LocationCoords']}>{`Lat = ${data.lat.toFixed(2)} Lon = ${(data.lon.toFixed(2))}`}</span>
             <SimpleBtn onclickHandler={(evt) => {
                 evt.stopPropagation();
                 addNewLocationData(data);
-                } }>Add to list</SimpleBtn>
+                } }>
+                    Add
+            </SimpleBtn>
         </li>
     ))
+                
+
     return (
-        <div>
-           <form>
-                <input ref={searchInput} />
-                <button onClick={searchLocation}>Add</button>   
+        <div className={classes.searchContainer}>
+           <form className={classes.locationSearch}>
+                <input ref={searchInput} className={classes['locationSearch-Input']} />
+                <button onClick={searchLocation} className={classes['locationSearch-Btn']}>Search</button>   
             </form>
-            <div>
-                {responseLayout !== null && <ul>{responseLayout}</ul>}
-            </div> 
+            <>
+                {errorLocation && (<h3>{errorLocation}</h3>)}
+                {isLocationsLoading ?
+                    <Spinner /> :
+                (<ul className={classes['locationSearch-List']}>{responseLayout}</ul>) }
+            </> 
         </div>
     )
 }

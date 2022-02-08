@@ -77,7 +77,7 @@ const App = () => {
     
 
     useEffect(() => {
-        fetchWeather();
+        fetchWeather(null);
     }, []);
 
     useEffect(() => {
@@ -91,14 +91,14 @@ const App = () => {
 
     useEffect(() => {
         const timeout = setTimeout(async () => {
-            fetchWeather();
+            fetchWeather(null);
         }, 900000);
         return () => {
             clearTimeout(timeout)
         }    
     }, [])
 
-    const resetAppData = () => {
+    const resetAppData = () : void => {
         setStorageData([], StorageFuncTarget.location);
         setStorageData('', StorageFuncTarget.current);
         setWeatherData({});
@@ -110,19 +110,19 @@ const App = () => {
         setCurrentLocation(newLoc);
 };
 
-    const computeCurrentLocation = () => {
+    const computeCurrentLocation = () : void => {
         const locationId = getStorageData(StorageFuncTarget.current) as string;
         setCurrentLocation(locationId)
     }
 
 
 
-    const setNewLocationData = (newData : WeatherApiResponse)  => { 
+    const setNewLocationData = (newData : WeatherApiResponse) : void  => { 
                 newData = Object.assign({}, newData);
                 setWeatherData( {...weatherData, [newData.city.name] : newData} );
             };
 
-    const addLocation = (locationWeather : WeatherApiResponse) => {
+    const addLocation = (locationWeather : WeatherApiResponse) : void => {
             const locName = locationWeather.city.name;
             const locInfo : Location = {name : locName, lat : locationWeather.lat, lon : locationWeather.lon};
             if (weatherData.hasOwnProperty(locName)) return
