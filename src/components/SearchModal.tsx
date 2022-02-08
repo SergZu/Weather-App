@@ -38,7 +38,6 @@ const SearchModal = ({closeModal, addLocation}) => {
                     lon : coords.longitude
                 };
                 const newLoc = await WeatherService.getDataByCoords(loc) as GeocodingApiObj[];
-                console.log(newLoc);
                 const newData = {
                     name : newLoc[0].name,
                     lat : newLoc[0].lat,
@@ -61,14 +60,22 @@ const SearchModal = ({closeModal, addLocation}) => {
         
     }
 
+    const offclickHandler = (evt) => {
+        if (evt.target.closest(`.${classes.searchForm}`) === null){
+            closeModal()
+        }
+    }
+
     return (
-        <div className={classes.modal}>
+        <div className={classes.modal} onClick={offclickHandler} >
             {geoError && <Alert text={geoError} />}
-            <div>
-                <button onClick={onGeoClickHandler}>Get My Position</button>
-                <SearchForm addLocation={addLocation} closeModal={closeModal} />
+            <div className={classes.searchForm}>
+                <div className={classes.searchContainer}>
+                    <button className={classes.geoBtn} onClick={onGeoClickHandler}>Use my geoposition</button>
+                    <SearchForm addLocation={addLocation} closeModal={closeModal} />
+                </div>
+                <SimpleBtn className={'closeBtn'} onclickHandler={closeModal}>&#10008;</SimpleBtn>
             </div>
-            <SimpleBtn className={classes.closeBtn} onclickHandler={closeModal}>&#10008;</SimpleBtn>
         </div>
     )
 }
