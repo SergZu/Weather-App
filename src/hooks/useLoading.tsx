@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-type CallbackType = (() => Promise<void>); 
+type CallbackType = (() => Promise<void>)|((props : string) => void); 
 
 type useLoadingHook = [
     Callback : CallbackType,
@@ -9,13 +9,14 @@ type useLoadingHook = [
 ]
 
 const useLoading = (callback : CallbackType) : useLoadingHook => {
-    const [isLoading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [isLoading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string|null>(null);
 
-    const fetching = async () => {
+    const fetching = async (props?) => {
+        setError(null);
         try {
             setLoading(true);
-            await callback()
+            await callback(props)
         }
         catch(err) {
             setError(err.message)
