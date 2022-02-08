@@ -89,6 +89,16 @@
     margin: auto;
 }
 
+.searchFallback {
+    margin: 2rem auto;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 0 0 4px #000;
+    text-transform: uppercase;
+    letter-spacing: .2rem;
+}
+
 .locationSearch-ListItem button:active,
 .locationSearch-ListItem button:focus,
 .locationSearch-ListItem button:hover {
@@ -98,3 +108,4 @@
 .locationSearch-ListItem button:active {
     transform: translate(2px, 2px);
 }
+

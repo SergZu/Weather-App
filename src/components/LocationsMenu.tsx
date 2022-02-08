@@ -4,6 +4,7 @@ import { Location } from './App'
 import SearchModal from './SearchModal';
 import SimpleBtn from '../UI/SimpleBtn/SimpleBtn';
 import { WeatherApiResponse } from './App';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 export interface LocationMenuProps {
     list : Location[],
@@ -42,35 +43,43 @@ const LocationsMenu = ({list, addLocation, deleteLocation, changeCurrentLocation
             const target = evt.currentTarget.dataset.id;
             changeCurrentLocation( target );
         }
-    }       
-
-
-        
-
-    const createLocationsLayout = useMemo(() => (list : Location[]) =>
-        list?.map((elem) => 
-            (<li key={`${elem.name + elem.lon + elem.lat}`} 
-                className={`${classes.locationElement} ${currentLocation === elem.name ? classes.active : '' }`} 
-                data-id={elem.name} onClick={changeLocation} tabIndex={0} onKeyPress={onKeyPressHandler}>
-                    <span>
-                        {`${elem.name} : ${elem.temp !== undefined ? elem.temp  : 'N/A'}`}{(elem.temp !== undefined) && (<>&deg;</>)}
-                    </span>
-                    <SimpleBtn className={'small'} hidden={!deleteMode} 
-                        onclickHandler={(evt) => {
-                            evt.stopPropagation();
-                            deleteLocation(elem.name);
-                            } 
-                    }>
-                        &minus;
-                    </SimpleBtn>
-            </li>))
-            , [list, deleteMode, currentLocation]) 
+    }              
    
     return (
         <div className={classes.locationsBoard}>            
-            {isModalOpen && (<SearchModal closeModal={closeModal} addLocation={addLocation} />)}
+            {isModalOpen && (<SearchModal closeModal={closeModal} addLocation={addLocation} isOpened={isModalOpen} /> )}
             <ul className={classes.locationList}>
-                {createLocationsLayout(list)}
+                <TransitionGroup >
+                    {
+                        list?.map((elem) => 
+                        (<CSSTransition 
+                            key={`${elem.name + elem.lon + elem.lat}`}
+                            timeout={500}
+                            classNames={{
+                                enter: classes.locationItemEnter,
+                                enterActive: classes.locationItemEnterActive,
+                                exit: classes.locationItemExit,
+                                exitActive: classes.locationItemExitActive
+                              }}
+                        >
+                            <li  
+                                className={`${classes.locationElement} ${currentLocation === elem.name ? classes.active : '' }`} 
+                                data-id={elem.name} onClick={changeLocation} tabIndex={0} onKeyPress={onKeyPressHandler}>
+                                <span>
+                                    {`${elem.name} : ${elem.temp !== undefined ? elem.temp  : 'N/A'}`}{(elem.temp !== undefined) && (<>&deg;</>)}
+                                </span>
+                                <SimpleBtn className={'small'} hidden={!deleteMode} 
+                                    onclickHandler={(evt) => {
+                                        evt.stopPropagation();
+                                        deleteLocation(elem.name);
+                                        } 
+                                }>
+                                    &minus;
+                                </SimpleBtn>
+                            </li>
+                        </CSSTransition>))
+                    }
+                </TransitionGroup>
             </ul>
             <div className={classes.btnBlock}>
                 <SimpleBtn hidden={false} onclickHandler={openModal} >&#43;</SimpleBtn>

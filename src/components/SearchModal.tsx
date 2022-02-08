@@ -8,8 +8,9 @@ import WeatherService from '../Api/WeatherService'
 
 export interface SearchModalProps{
     closeModal : () => void;
-    addLocation : (locationWeather : WeatherApiResponse) => void,
+    addLocation : (locationWeather : WeatherApiResponse) => void;
     changeCurrentLocation : (newLoc : string) => void;
+    isOpened : boolean;
 }
 
 export type GeocodingApiObj = {
@@ -21,7 +22,7 @@ export type GeocodingApiObj = {
     state: string;
 }
 
-const SearchModal = ({closeModal, addLocation}) => {
+const SearchModal = ({closeModal, addLocation, isOpened}) => {
     const [ geoError, setGeoError ] = useState(null);
     const [ geoPositionInProgress, setGeoPositionInProgress] = useState(false);
 
@@ -69,13 +70,14 @@ const SearchModal = ({closeModal, addLocation}) => {
     return (
         <div className={classes.modal} onClick={offclickHandler} >
             {geoError && <Alert text={geoError} />}
-            <div className={classes.searchForm}>
+                <div className={classes.searchForm}>
                 <div className={classes.searchContainer}>
                     <button className={classes.geoBtn} onClick={onGeoClickHandler}>Use my geoposition</button>
                     <SearchForm addLocation={addLocation} closeModal={closeModal} />
                 </div>
                 <SimpleBtn className={'closeBtn'} onclickHandler={closeModal}>&#10008;</SimpleBtn>
             </div>
+            
         </div>
     )
 }

@@ -54,7 +54,8 @@ const SearchForm = ({addLocation, closeModal} : SearchFormProps) => {
             </SimpleBtn>
         </li>
     ))
-                
+    
+    let isEmpty = responseData !== null && !responseData.length;
 
     return (
         <div className={classes.searchContainer}>
@@ -66,7 +67,9 @@ const SearchForm = ({addLocation, closeModal} : SearchFormProps) => {
                 {errorLocation && (<h3>{errorLocation}</h3>)}
                 {isLocationsLoading ?
                     <Spinner /> :
-                (<ul className={classes['locationSearch-List']}>{responseLayout}</ul>) }
+                    !isEmpty ? (<ul className={classes['locationSearch-List']}>{responseLayout}</ul>) :
+                        <h3 className={classes.searchFallback}>Not found</h3>
+                }
             </> 
         </div>
     )
