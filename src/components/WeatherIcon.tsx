@@ -1,48 +1,39 @@
 import React from 'react'
 import ReactAnimatedWeather from 'react-animated-weather';
+import { convertIconType } from '../utils/convertIconType';
+import classes from './WeatherIcon.module.css';
 
 const defaults = {
     icon: 'CLEAR_DAY',
-    color: '#777',
+    color: '#aaa',
     size: 64,
     animate: true
   };
 
-const WeatherIcon = ({type, currentTime, offset}) => {
-    let wicon;
+export interface weatherIcon {
+    type : string,
+    currentTime : number,
+    offset : number
+}
+
+type weatherIconType = 'CLEAR_NIGHT' | 'CLEAR_DAY' | 'PARTLY_CLOUDY_NIGHT' | 'PARTLY_CLOUDY_DAY' | 'FOG' | 'SNOW' | 
+                        'RAIN' | 'CLOUDY';
+
+const WeatherIcon = ({type, currentTime, offset} : weatherIcon) => {
+
     let date = new Date(currentTime + offset).getUTCHours();
-    const isNight = date < 6 || date > 20;  
-    switch(type) {
-        case 'Clear' :
-            wicon = isNight ? 'CLEAR_NIGHT' : 'CLEAR_DAY';
-            break;
-        case 'Clouds' :
-            wicon = isNight ? 'PARTLY_CLOUDY_NIGHT' : 'PARTLY_CLOUDY_DAY';
-            break;
-        case 'Mist' :
-        case 'Fog' :
-        case 'Smoke' : 
-            wicon = 'FOG'
-            break;
-        case 'Snow' :
-            wicon = 'SNOW';
-            break;
-        case 'Drizzle' :
-        case 'Thunderstorm' :
-        case 'Rain' :
-            wicon = 'RAIN';
-            break;
-        default : wicon = 'CLOUDY'
-    }
+    const isNight = date < 6 || date > 18;
+    let wicon : weatherIconType = convertIconType(type, isNight) as weatherIconType;
+    
     return (
-        <>
+        <div className={classes['icon-container']}>
            <ReactAnimatedWeather
             icon={wicon}
             color={defaults.color}
             size={defaults.size}
             animate={defaults.animate}
             /> 
-        </>
+        </div>
     )
 }
 
