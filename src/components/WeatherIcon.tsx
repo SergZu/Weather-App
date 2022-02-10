@@ -22,7 +22,7 @@ type weatherIconType = 'CLEAR_NIGHT' | 'CLEAR_DAY' | 'PARTLY_CLOUDY_NIGHT' | 'PA
 const WeatherIcon = ({type, currentTime, offset} : weatherIcon) => {
 
     let date = new Date(currentTime + offset).getUTCHours();
-    const isNight = date < 6 || date > 18;
+    const isNight = date < 6 || date > 17;
     let wicon : weatherIconType = convertIconType(type, isNight) as weatherIconType;
     
     return (
