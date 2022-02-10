@@ -1,13 +1,18 @@
 import React from 'react'
 import classes from './Spinner.module.css';
 
-const Spinner = () => {
+interface spinnerProps {
+    classname? : string;
+}
+
+const Spinner = ({classname} : spinnerProps) => {
     return (
-        <div className={classes.spinner}>
-            <div className={classes.loading}>
-                <span className={classes.text}>Loading...</span>
+        <div className={`${classes.spinnerContainer} ${classes[classname] !== undefined ? classes[classname] : ''}` }>
+            <div className={classes['lds-ripple']}>
+                <div></div>
+                <div></div>
             </div>
-        </div>
+        </div> 
     )
 }
 

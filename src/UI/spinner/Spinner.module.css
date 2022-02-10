@@ -1,35 +1,45 @@
-
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.spinner {
+.spinnerContainer {
     display: flex;
     width: 100%;
     height: 90vh;
-    --spin-color: rgb(49, 2, 49); 
+    justify-content: center;
+    align-items: center;
+    margin: auto 0 auto auto;
 }
 
-.loading {
-    display: flex;
-    margin: auto;
-    width: 25vmin;
-    height: 25vmin;
-    border: 4px dashed var(--spin-color);
+ .inset {
+  align-items: flex-start;
+}
+
+.lds-ripple {
+    display: inline-block;
+    position: relative;
+    width: 60%;
+    height: 60%;
+  }
+  .lds-ripple div {
+    position: absolute;
+    border: 4px solid #fff;
+    opacity: 1;
     border-radius: 50%;
-    animation: spin 8s linear infinite both running;
-}
-
-.text {
-    margin: auto;
-    color: var(--spin-color);
-    font: 800 1.25rem/1.5 'Verdana',sans-serif;
-    animation: inherit;
-    animation-direction: reverse;
-}
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+  .lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  @keyframes lds-ripple {
+    0% {
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      opacity: 1;
+    }
+    100% {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+    }
+  }
