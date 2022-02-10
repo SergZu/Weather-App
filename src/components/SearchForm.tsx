@@ -64,9 +64,9 @@ const SearchForm = ({addLocation, closeModal} : SearchFormProps) => {
                 <button onClick={searchLocation} className={classes['locationSearch-Btn']}>Search</button>   
             </form>
             <>
-                {errorLocation && (<h3>{errorLocation}</h3>)}
+                {errorLocation && (<h3 className={classes.textCenter}>{errorLocation}</h3>)}
                 {isLocationsLoading ?
-                    <Spinner /> :
+                    <Spinner classname={'inset'} /> :
                     !isEmpty ? (<ul className={classes['locationSearch-List']}>{responseLayout}</ul>) :
                         <h3 className={classes.searchFallback}>Not found</h3>
                 }
