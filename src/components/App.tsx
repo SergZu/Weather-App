@@ -9,6 +9,7 @@ import classes from './App.module.css'
 import Alert from '../UI/Alert/Alert'
 import { selectBackground } from '../utils/selectBackground'
 import { createLocationsList } from '../utils/createLocationsList'
+import ErrorBoundary from './ErrorBoundary'
 
 
 export type Location = {
@@ -184,21 +185,21 @@ const App = () => {
                                                                         sunset : weatherData[currentLocation].list[0].sunset,
                                                                      } : null) ]}`}>
                         { (!isWeatherLoading && !Object.keys(weatherData).length) ?
-                            (<>
+                            (<ErrorBoundary>
                                 <div className={classes.fallback}>
                                     <h2 className={classes.fallbackMessage}>Locations list is empty</h2>
                                 </div>
                                 <Dashboard list={[]} addLocation={addLocation} deleteLocation={deleteLocation} 
                                                                 changeCurrentLocation={changeCurrentLocation} currentLocation='' />
-                            </>) :
+                            </ErrorBoundary>) :
                             isWeatherLoading ? 
                                                 <Spinner />
-                                            :   <>
+                                            :   <ErrorBoundary>
                                                     <Weather  data={ weatherData[currentLocation] } 
                                                                 location={currentLocation} currentTime={currentTime} />
                                                     <Dashboard list={tempArray()} addLocation={addLocation} deleteLocation={deleteLocation} 
                                                                 changeCurrentLocation={changeCurrentLocation} currentLocation={currentLocation} />
-                                                </>                    
+                                                </ErrorBoundary>                    
                         } 
                                             
                     </main>
