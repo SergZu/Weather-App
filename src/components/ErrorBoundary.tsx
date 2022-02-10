@@ -1,4 +1,5 @@
 import React, { Component, ReactNode, ErrorInfo } from 'react';
+import classes from './ErrorBoundary.module.css';
 
 interface Props {
     children: ReactNode
@@ -23,14 +24,14 @@ export class ErrorBoundary extends Component<Props, State> {
             error: error,
             errorInfo: errorInfo
         });
-        console.log(`Error : ${this.state.error.toString()}`);
-        console.log(`${this.state.errorInfo.componentStack}`);
+        console.log(`Error : ${error?.toString()}`);
+        console.log(`${errorInfo?.componentStack}`);
     }
 
   render() {
     if (this.state.errorInfo) {
         return (
-          <div>
+          <div className={classes.errorContainer}>
             <h2>Something went wrong.</h2>
             <details style={{ whiteSpace: 'pre-wrap' }}>
               {this.state.error && this.state.error.toString()}
@@ -40,7 +41,7 @@ export class ErrorBoundary extends Component<Props, State> {
           </div>
         );
       }
-      
+
       return this.props.children;
   }
 }
