@@ -47,7 +47,7 @@ const LocationsMenu = ({list, addLocation, deleteLocation, changeCurrentLocation
    
     return (
         <div className={classes.locationsBoard}>            
-            {isModalOpen && (<SearchModal closeModal={closeModal} addLocation={addLocation} isOpened={isModalOpen} /> )}
+            {isModalOpen && (<SearchModal closeModal={closeModal} addLocation={addLocation} /> )}
             <ul className={classes.locationList}>
                 <TransitionGroup >
                     {

@@ -10,7 +10,6 @@ export interface SearchModalProps{
     closeModal : () => void;
     addLocation : (locationWeather : WeatherApiResponse) => void;
     changeCurrentLocation : (newLoc : string) => void;
-    isOpened : boolean;
 }
 
 export type GeocodingApiObj = {
@@ -22,7 +21,7 @@ export type GeocodingApiObj = {
     state: string;
 }
 
-const SearchModal = ({closeModal, addLocation, isOpened}) => {
+const SearchModal = ({closeModal, addLocation}) => {
     const [ geoError, setGeoError ] = useState(null);
     const [ geoPositionInProgress, setGeoPositionInProgress] = useState(false);
 
