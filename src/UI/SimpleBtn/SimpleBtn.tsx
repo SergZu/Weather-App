@@ -18,7 +18,9 @@ const SimpleBtn = ({children, onclickHandler, className, hidden} : SimpleBtnProp
     return (
         <button 
             className={`${classes.btn} ${classes[className] !== undefined ? classes[className] : ''} ${hidden ? classes.invisible : ''}`} 
-            onClick={onclickHandler} onKeyPress={onkeypressedHandler}>
+            onClick={onclickHandler} 
+            onKeyPress={onkeypressedHandler}
+        >
            {children}
         </button>
     )
