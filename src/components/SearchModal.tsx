@@ -48,13 +48,15 @@ const SearchModal = ({closeModal, addLocation}) => {
                     lat : coords.latitude,
                     lon : coords.longitude
                 };
-                const newLoc = await WeatherService.getDataByCoords(loc, { signal : abortController.current}) as GeocodingApiObj[];
+                const newLoc = await WeatherService.getDataByCoords(loc, 
+                                                                    { signal : abortController.current}) as GeocodingApiObj[];
                 const newData = {
                     name : newLoc[0].name,
                     lat : newLoc[0].lat,
                     lon : newLoc[0].lon
                 }
-                const weatherData = await WeatherService.getLocationData(newData, { signal : abortController.current}) as WeatherApiResponse;
+                const weatherData = await WeatherService.getLocationData(newData, 
+                                                                    { signal : abortController.current}) as WeatherApiResponse;
                 addLocation(weatherData);
                 setGeoError(null);
                 setGeoPositionInProgress(false);
@@ -65,6 +67,7 @@ const SearchModal = ({closeModal, addLocation}) => {
                 setGeoError(error.message);
                 setGeoPositionInProgress(false);
             }
+
             navigator.geolocation.getCurrentPosition(onSuccess, onError);
         }
 

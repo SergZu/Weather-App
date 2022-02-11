@@ -28,7 +28,8 @@ const SearchForm = ({addLocation, closeModal} : SearchFormProps) => {
     
     let [fetchLocation, isLocationsLoading, errorLocation] = useLoading(async (value) => {
         if (value !== null) {
-            const data : GeocodingApiObj[]|null = await WeatherService.getDataByName({name : value}, {signal : abortController.current}) as GeocodingApiObj[]|null;
+            const data : GeocodingApiObj[]|null = await WeatherService.getDataByName({name : value}, 
+                                                    {signal : abortController.current}) as GeocodingApiObj[]|null;
             setResponseData(data);
         }
     })
@@ -46,16 +47,23 @@ const SearchForm = ({addLocation, closeModal} : SearchFormProps) => {
             lat : data.lat,
             lon : data.lon
         }
-        const weatherData = await WeatherService.getLocationData(newData, {signal : abortController.current}) as WeatherApiResponse;  
+        const weatherData = await WeatherService.getLocationData(newData, 
+                                                                {signal : abortController.current}) as WeatherApiResponse;  
         addLocation(weatherData);
         closeModal();
     }
 
     const responseLayout = responseData?.map((data) => (
         <li key={`${data.name}${data.lat}` } className={classes['locationSearch-ListItem']}>
-            <h3 className={classes['locationSearch-LocationName']}>{`Name : ${data.name}`}</h3>
-            <span className={classes['locationSearch-LocationCountry']}>{`Country : ${data.country}`}</span>
-            <span className={classes['locationSearch-LocationCoords']}>{`Lat = ${data.lat.toFixed(2)} Lon = ${(data.lon.toFixed(2))}`}</span>
+            <h3 className={classes['locationSearch-LocationName']}>
+                {`Name : ${data.name}`}
+            </h3>
+            <span className={classes['locationSearch-LocationCountry']}>
+                {`Country : ${data.country}`}
+            </span>
+            <span className={classes['locationSearch-LocationCoords']}>
+                {`Lat = ${data.lat.toFixed(2)} Lon = ${(data.lon.toFixed(2))}`}
+            </span>
             <SimpleBtn onclickHandler={(evt) => {
                 evt.stopPropagation();
                 addNewLocationData(data);

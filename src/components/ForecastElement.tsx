@@ -20,10 +20,18 @@ const ForecastElement = ({date, tmin, tmax, description, wind} : ForecastElement
 
     return (
         <div className={classes.forecastElement}>
-            <span>{`${targetDate.getDate()} ${months[targetDate.getMonth()]}`}</span>
-            <span>min: {tmin}&deg;&emsp;max: {tmax}&deg;</span>
-            <span>{description}</span>
-            <span>{`${wind.speed}m/s ${computeDirection(wind.deg)}`}</span>
+            <span>
+                {`${targetDate.getDate()} ${months[targetDate.getMonth()]}`}
+            </span>
+            <span>
+                min: {tmin}&deg;&emsp;max: {tmax}&deg;
+            </span>
+            <span>
+                {description}
+            </span>
+            <span>
+                {`${wind.speed}m/s ${computeDirection(wind.deg)}`}
+            </span>
         </div>
     )
 }

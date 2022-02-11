@@ -184,27 +184,43 @@ const App = () => {
 
     return ( 
                 <div className={classes.appContainer}>
+                    
                         {errorWeather ? (<Alert text={errorWeather} />) : null}
+
                     <main className={`${classes.app} ${!isWeatherLoading 
-    && classes[ selectBackground( Object.keys(weatherData).length ? {
-                                                                        sunrise : weatherData[currentLocation].list[0].sunrise,
-                                                                        sunset : weatherData[currentLocation].list[0].sunset,
-                                                                     } : null) ]}`}>
+                                                && classes[ selectBackground( 
+                                                    Object.keys(weatherData).length ? 
+                                                    {
+                                                        sunrise : weatherData[currentLocation].list[0].sunrise,
+                                                        sunset : weatherData[currentLocation].list[0].sunset,
+                                                        current : currentTime
+                                                    } : 
+                                                    null) ]}`}>
+
                         { (!isWeatherLoading && !Object.keys(weatherData).length) ?
                             (<ErrorBoundary>
                                 <div className={classes.fallback}>
                                     <h2 className={classes.fallbackMessage}>Locations list is empty</h2>
                                 </div>
-                                <Dashboard list={[]} addLocation={addLocation} deleteLocation={deleteLocation} 
-                                                                changeCurrentLocation={changeCurrentLocation} currentLocation='' />
+                                <Dashboard list={[]} 
+                                           addLocation={addLocation} 
+                                           deleteLocation={deleteLocation} 
+                                           changeCurrentLocation={changeCurrentLocation} 
+                                           currentLocation='' 
+                                />
                             </ErrorBoundary>) :
                             isWeatherLoading ? 
                                                 <Spinner />
                                             :   <ErrorBoundary>
                                                     <Weather  data={ weatherData[currentLocation] } 
-                                                                location={currentLocation} currentTime={currentTime} />
-                                                    <Dashboard list={tempArray()} addLocation={addLocation} deleteLocation={deleteLocation} 
-                                                                changeCurrentLocation={changeCurrentLocation} currentLocation={currentLocation} />
+                                                              location={currentLocation} 
+                                                              currentTime={currentTime} />
+                                                    <Dashboard list={tempArray()} 
+                                                               addLocation={addLocation} 
+                                                               deleteLocation={deleteLocation} 
+                                                               changeCurrentLocation={changeCurrentLocation} 
+                                                               currentLocation={currentLocation} 
+                                                    />
                                                 </ErrorBoundary>                    
                         } 
                                             

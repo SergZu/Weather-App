@@ -29,18 +29,34 @@ const WeatherDisplay = ({data, currentTime} : DisplayProps) => {
     return (
         <div className={classes.display}>
             <div className={classes.displayInfoBlock}>
-                <span className={classes.displayLocation}>{data.location}</span>
+                <span className={classes.displayLocation}>
+                    {data.location}
+                </span>
                 <CurrentDate currentTime={currentTime} offset={data.offset} />                        
             </div>
             <div className={classes.displayWeather}>
-                <span className={classes.displayTemp}>{data.temp}&deg;</span>
-                <span className={classes.displayWeather}><WeatherIcon type={data.weather} isNight={isNight} /></span>
-                <span className={classes.displayWind}>{`Wind : ${data.wind.speed}m/s ${computeDirection(data.wind.deg)}`}</span> 
-                <span className={classes.displayAtm}>{`Atm - ${data.pressure} hPa`}</span>
-                <span className={classes.displayUVI}>{`UV Index - ${data.uvi}`}</span>
+                <span className={classes.displayTemp}>
+                    {data.temp}&deg;
+                </span>
+                <span className={classes.displayWeather}>
+                    <WeatherIcon type={data.weather} isNight={isNight} />
+                </span>
+                <span className={classes.displayWind}>
+                    {`Wind : ${data.wind.speed}m/s ${computeDirection(data.wind.deg)}`}
+                </span> 
+                <span className={classes.displayAtm}>
+                    {`Atm - ${data.pressure} hPa`}
+                </span>
+                <span className={classes.displayUVI}>
+                    {`UV Index - ${data.uvi}`}
+                </span>
                 <div className={classes.suntimes}>
-                    <span>{`Sunrise - ${convertUnixToHM(data.sunrise, data.offset)}`}</span>
-                    <span>{`Sunset - ${convertUnixToHM(data.sunset, data.offset)}`}</span>
+                    <span>
+                        {`Sunrise - ${convertUnixToHM(data.sunrise, data.offset)}`}
+                    </span>
+                    <span>
+                        {`Sunset - ${convertUnixToHM(data.sunset, data.offset)}`}
+                    </span>
                 </div>
             </div>
         </div>

@@ -11,12 +11,16 @@ export interface locationProps {
     currentLocation : string;
 }
 
-const Dashboard = function Dashboard({list, addLocation, deleteLocation, changeCurrentLocation, currentLocation } : locationProps){
+const Dashboard = ({list, addLocation, deleteLocation, changeCurrentLocation, currentLocation } : locationProps) => {
   
     return (
         <div className={classes.dashboardContainer}>
-            <LocationsMenu list={list} addLocation={addLocation} deleteLocation={deleteLocation} changeCurrentLocation={changeCurrentLocation}
-            currentLocation={currentLocation} /> 
+            <LocationsMenu list={list} 
+                           addLocation={addLocation} 
+                           deleteLocation={deleteLocation} 
+                           changeCurrentLocation={changeCurrentLocation}
+                           currentLocation={currentLocation} 
+            /> 
         </div>
     )
 }

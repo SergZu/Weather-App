@@ -1,5 +1,6 @@
 html {
-    height: 100vh;
+    min-height: 100vh;
+    font-size: 9px;
 }
 
 .appContainer {
@@ -29,15 +30,15 @@ html {
 }
 
 .defaultBackground {
-    background-image: url('../assets/Storm-sm.jpg');
+    background-image: url('../assets/storm-min.jpg');
 }
 
 .clearSkyBackground {
-    background-image: url('../assets/sunny.jpg');
+    background-image: url('../assets/daytime-background-min.png');
 }
 
 .nightBackground {
-    background-image: url('../assets/nightBackground-min.png');
+    background-image: url('../assets/night-background-min.png');
 }
 
 .defaultBackground, .clearSkyBackground, .nightBackground {   
@@ -60,12 +61,33 @@ html {
 
 
 @media screen and (min-width: 800px) {
+    html {
+        font-size: 12px;
+    }
     .appContainer {
         width: 90%;
     }     
 }
 
+@media screen and (min-width: 1024px) {
+
+    .defaultBackground {
+        background-image: url('../assets/storm-med.jpg');
+    }
+    
+    .clearSkyBackground {
+        background-image: url('../assets/daytime-background-med.png');
+    }
+    
+    .nightBackground {
+        background-image: url('../assets/night-background-med.png');
+    }
+}
+
 @media screen and (min-width: 1200px) {
+    html {
+        font-size: 16px;
+    }
     .appContainer {
         width: 80%;
     }     

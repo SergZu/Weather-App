@@ -64,9 +64,14 @@ const LocationsMenu = ({list, addLocation, deleteLocation, changeCurrentLocation
                         >
                             <li  
                                 className={`${classes.locationElement} ${currentLocation === elem.name ? classes.active : '' }`} 
-                                data-id={elem.name} onClick={changeLocation} tabIndex={0} onKeyPress={onKeyPressHandler}>
+                                data-id={elem.name} 
+                                onClick={changeLocation} 
+                                tabIndex={0} 
+                                onKeyPress={onKeyPressHandler}
+                            >
                                 <span>
-                                    {`${elem.name} : ${elem.temp !== undefined ? elem.temp  : 'N/A'}`}{(elem.temp !== undefined) && (<>&deg;</>)}
+                                    {`${elem.name} : ${elem.temp !== undefined ? elem.temp  : 'N/A'}`}
+                                    {(elem.temp !== undefined) && (<>&deg;</>)}
                                 </span>
                                 <SimpleBtn className={'small'} hidden={!deleteMode} 
                                     onclickHandler={(evt) => {
