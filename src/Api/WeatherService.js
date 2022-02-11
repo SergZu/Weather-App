@@ -1,9 +1,9 @@
 import axios from "axios";
 import { OWMadapter } from "../utils/OWMDataAdapter";
 
-const WEATHER_URL = "http://api.openweathermap.org/data/2.5/onecall?";
-const GEOREVERSE_API_URL = "http://api.openweathermap.org/geo/1.0/reverse?";
-const GEOCODING_API_URL = "http://api.openweathermap.org/geo/1.0/direct?"
+const WEATHER_URL = "https://api.openweathermap.org/data/2.5/onecall?";
+const GEOREVERSE_API_URL = "https://api.openweathermap.org/geo/1.0/reverse?";
+const GEOCODING_API_URL = "https://api.openweathermap.org/geo/1.0/direct?"
 
 const getRequestConfig = {
     timeout : 10000,
@@ -12,7 +12,7 @@ const getRequestConfig = {
 
 export default class WeatherService {
     static async getAllData(data, signal) {
-        const responses = data.map((item) => {
+        const responses = data?.map((item) => {
             return axios.get
                 (`${WEATHER_URL}lat=${item.lat}&lon=${item.lon}&exclude=minutely,hourly,alerts&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}&units=metric`,
                     {...getRequestConfig,
