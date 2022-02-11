@@ -3,3 +3,9 @@
     justify-content: space-around;
     color: #ccc;
 }
+
+@media screen and (max-width: 800px) {
+    .forecast {
+        justify-content: stretch;
+    }
+}

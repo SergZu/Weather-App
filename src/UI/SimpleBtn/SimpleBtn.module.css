@@ -1,6 +1,6 @@
 .btn {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,9 +11,7 @@
     cursor: pointer;
 }
 
-.btn:active {
-    transform: translate(3px, 3px);
-}
+
 .invisible {
     visibility: hidden;
 }
@@ -34,5 +32,21 @@
     margin: auto;
 }
 
+@media screen and (min-width: 800px) {
+    .btn {
+        width: 25px;
+        height: 25px;
+    }
+    .btn:active {
+        transform: translate(3px, 3px);
+    }   
+}
+
+@media screen and (min-width: 1024px) {
+    .btn {
+        width: 30px;
+        height: 30px;
+    }
+}
 
 

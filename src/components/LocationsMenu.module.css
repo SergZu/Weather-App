@@ -84,3 +84,11 @@
     opacity: 0;
     transition: all 500ms ease-in;
 }
+
+@media screen and (max-width: 800px) {
+    .locationList {
+        margin-left: 5px;
+        padding: 0;
+        padding-right: 3px;
+    }
+}

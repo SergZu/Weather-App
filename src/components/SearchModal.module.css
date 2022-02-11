@@ -14,7 +14,7 @@
 
 .searchForm {
     width: 80%;
-    height: 80vh;
+    height: calc(var(--app-height) - 10vh);
     display: grid;
     grid-template-columns: 6fr 1fr;
     justify-content: center;
@@ -56,4 +56,10 @@
 
 .geoBtn:active {
     transform: translate(2px, 2px);
+}
+
+@media  screen and (max-width: 480px) {
+    .searchForm {
+        width: 100%;
+    }
 }
