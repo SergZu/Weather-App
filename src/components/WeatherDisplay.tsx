@@ -25,6 +25,7 @@ export interface DisplayProps {
 }
 
 const WeatherDisplay = ({data, currentTime} : DisplayProps) => {
+    const isNight = currentTime < data.sunrise || currentTime > data.sunset;
     return (
         <div className={classes.display}>
             <div className={classes.displayInfoBlock}>
@@ -33,7 +34,7 @@ const WeatherDisplay = ({data, currentTime} : DisplayProps) => {
             </div>
             <div className={classes.displayWeather}>
                 <span className={classes.displayTemp}>{data.temp}&deg;</span>
-                <span className={classes.displayWeather}><WeatherIcon type={data.weather} currentTime={currentTime} offset={data.offset} /></span>
+                <span className={classes.displayWeather}><WeatherIcon type={data.weather} isNight={isNight} /></span>
                 <span className={classes.displayWind}>{`Wind : ${data.wind.speed}m/s ${computeDirection(data.wind.deg)}`}</span> 
                 <span className={classes.displayAtm}>{`Atm - ${data.pressure} hPa`}</span>
                 <span className={classes.displayUVI}>{`UV Index - ${data.uvi}`}</span>

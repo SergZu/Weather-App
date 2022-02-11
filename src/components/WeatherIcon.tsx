@@ -11,18 +11,15 @@ const defaults = {
   };
 
 export interface weatherIcon {
-    type : string,
-    currentTime : number,
-    offset : number
+    type : string;
+    isNight : boolean;
 }
 
 type weatherIconType = 'CLEAR_NIGHT' | 'CLEAR_DAY' | 'PARTLY_CLOUDY_NIGHT' | 'PARTLY_CLOUDY_DAY' | 'FOG' | 'SNOW' | 
                         'RAIN' | 'CLOUDY';
 
-const WeatherIcon = ({type, currentTime, offset} : weatherIcon) => {
+const WeatherIcon = ({type, isNight} : weatherIcon) => {
 
-    let date = new Date(currentTime + offset).getUTCHours();
-    const isNight = date < 6 || date > 17;
     let wicon : weatherIconType = convertIconType(type, isNight) as weatherIconType;
     
     return (
