@@ -11,11 +11,13 @@ const getRequestConfig = {
 }
 
 export default class WeatherService {
-    static async getAllData(data) {
+    static async getAllData(data, signal) {
         const responses = data.map((item) => {
             return axios.get
                 (`${WEATHER_URL}lat=${item.lat}&lon=${item.lon}&exclude=minutely,hourly,alerts&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}&units=metric`,
-                    getRequestConfig)
+                    {...getRequestConfig,
+                        signal: signal
+                    })
         });
         const responseResults = await Promise.all(responses);
         const result = {};
@@ -33,24 +35,30 @@ export default class WeatherService {
         return result
     }
 
-    static async getLocationData({name, lat, lon}) {
+    static async getLocationData({name, lat, lon}, {signal}) {
         const response = await axios.get(`${WEATHER_URL}lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}&units=metric`,
-            getRequestConfig);
+        {...getRequestConfig,
+            signal: signal
+        });
         if (response.status !== 200) return null
 
         const weatherData = OWMadapter(response.data, name);
         return weatherData
     }
 
-    static async getDataByName({name}) {
+    static async getDataByName({name}, {signal}) {
         const response = await axios.get(`${GEOCODING_API_URL}q=${ encodeURIComponent(name) }&limit=10&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`,
-            getRequestConfig);
+        {...getRequestConfig,
+            signal: signal
+        });
         return response.status !== 200 ?  null : response.data
     }
 
-    static async getDataByCoords({lat, lon}) {
+    static async getDataByCoords({lat, lon}, {signal}) {
         const response = await axios.get(`${GEOREVERSE_API_URL}lat=${lat}&lon=${lon}&limit=1&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`,
-            getRequestConfig);
+        {...getRequestConfig,
+            signal: signal
+        });
         return response.status !== 200 ?  null : response.data
     }
 }
