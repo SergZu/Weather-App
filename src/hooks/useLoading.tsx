@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 
-type CallbackType = (() => Promise<void>)|((props : string) => void); 
+interface propsWithOptions {
+    [key : string] : object|string
+}
+
+type CallbackType = (() => Promise<void>)|((props : propsWithOptions) => void);
 
 type useLoadingHook = [
     Callback : CallbackType,

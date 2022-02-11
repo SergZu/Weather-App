@@ -6,6 +6,6 @@
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
-    border: 1px solid slategray;
+    border: 1px solid #708090;
     border-radius: 5px;
 }
