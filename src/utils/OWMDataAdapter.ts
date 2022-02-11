@@ -81,6 +81,8 @@ const emptyResponce = {
     }
 }
 
+const daysDataLimit = 5;
+
 export const OWMadapter = function(responceData : OWMdata, city : string) : WeatherApiResponse | typeof emptyResponce {
     
     if (!Object.keys(responceData).length) {
@@ -114,7 +116,7 @@ export const OWMadapter = function(responceData : OWMdata, city : string) : Weat
         }
     ]
 
-    for (let i = 1; i < 5; i++) {
+    for (let i = 1; i < daysDataLimit; i++) {
 
         const day = {
             dt : responceData.daily[i].dt * 1000,
