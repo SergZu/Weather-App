@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import WeatherService from '../Api/WeatherService';
 import SimpleBtn from '../UI/SimpleBtn/SimpleBtn';
 import { WeatherApiResponse } from './App';
@@ -15,10 +15,20 @@ export interface SearchFormProps{
 const SearchForm = ({addLocation, closeModal} : SearchFormProps) => {
     const [responseData, setResponseData] = useState<GeocodingApiObj[]|null>(null);
     const searchInput = useRef(null);
+    const  abortController = useRef(null);
 
+    useEffect(() => {
+      const controller = new AbortController();
+      abortController.current = controller.signal;
+    
+      return () => {
+        controller.abort()
+      };
+    }, []);
+    
     let [fetchLocation, isLocationsLoading, errorLocation] = useLoading(async (value) => {
         if (value !== null) {
-            const data : GeocodingApiObj[]|null = await WeatherService.getDataByName({name : value}) as GeocodingApiObj[]|null;
+            const data : GeocodingApiObj[]|null = await WeatherService.getDataByName({name : value}, {signal : abortController.current}) as GeocodingApiObj[]|null;
             setResponseData(data);
         }
     })
@@ -36,7 +46,7 @@ const SearchForm = ({addLocation, closeModal} : SearchFormProps) => {
             lat : data.lat,
             lon : data.lon
         }
-        const weatherData = await WeatherService.getLocationData(newData) as WeatherApiResponse;  
+        const weatherData = await WeatherService.getLocationData(newData, {signal : abortController.current}) as WeatherApiResponse;  
         addLocation(weatherData);
         closeModal();
     }

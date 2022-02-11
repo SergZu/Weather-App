@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import classes from './SearchModal.module.css'
 import { WeatherApiResponse } from './App'
 import SimpleBtn from '../UI/SimpleBtn/SimpleBtn'
@@ -24,6 +24,17 @@ export type GeocodingApiObj = {
 const SearchModal = ({closeModal, addLocation}) => {
     const [ geoError, setGeoError ] = useState(null);
     const [ geoPositionInProgress, setGeoPositionInProgress] = useState(false);
+    const  abortController = useRef(null);
+
+    useEffect(() => {
+      const controller = new AbortController();
+      abortController.current = controller.signal;
+    
+      return () => {
+        controller.abort()
+      };
+    }, []);
+    
 
     const onGeoClickHandler = () => {
          if (geoPositionInProgress) return
@@ -37,13 +48,13 @@ const SearchModal = ({closeModal, addLocation}) => {
                     lat : coords.latitude,
                     lon : coords.longitude
                 };
-                const newLoc = await WeatherService.getDataByCoords(loc) as GeocodingApiObj[];
+                const newLoc = await WeatherService.getDataByCoords(loc, { signal : abortController.current}) as GeocodingApiObj[];
                 const newData = {
                     name : newLoc[0].name,
                     lat : newLoc[0].lat,
                     lon : newLoc[0].lon
                 }
-                const weatherData = await WeatherService.getLocationData(newData) as WeatherApiResponse;
+                const weatherData = await WeatherService.getLocationData(newData, { signal : abortController.current}) as WeatherApiResponse;
                 addLocation(weatherData);
                 setGeoError(null);
                 setGeoPositionInProgress(false);

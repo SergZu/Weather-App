@@ -63,7 +63,7 @@ const App = () => {
     const [currentLocation, setCurrentLocation] = useState<string>('');
     const [currentTime, setCurrentTime] = useState<number>( Date.now() );
 
-    const [fetchWeather, isWeatherLoading, errorWeather] = useLoading(async () => {
+    const [fetchWeather, isWeatherLoading, errorWeather] = useLoading(async ({signal}) => {
         
         const data = getStorageData(StorageFuncTarget.location) as Location[] ;
         if ( !data.length ) {
@@ -72,15 +72,19 @@ const App = () => {
         }
 
         computeCurrentLocation();
-        let weather : WeatherDataObject = await WeatherService.getAllData(data) as WeatherDataObject;
+        let weather : WeatherDataObject = await WeatherService.getAllData(data, signal) as WeatherDataObject;
         setWeatherData( weather );
     });
     
-
+    /* Fetching weather first */
     useEffect(() => {
-        fetchWeather(null);
+        const controller = new AbortController();
+        fetchWeather({signal : controller.signal});
+        return () => {
+            controller.abort()
+        }
     }, []);
-
+    /* Update time on display */
     useEffect(() => {
         const timeout = setTimeout(() => {
             setCurrentTime(Date.now())
@@ -89,13 +93,15 @@ const App = () => {
             clearTimeout(timeout)
         }
     }, [currentTime]);
-
+    /* Update weather data after 15m */
     useEffect(() => {
+        const controller = new AbortController();
         const timeout = setTimeout(async () => {
-            fetchWeather(null);
+            fetchWeather({signal : controller.signal});
         }, 900000);
         return () => {
-            clearTimeout(timeout)
+            controller.abort();
+            clearTimeout(timeout);
         }    
     }, [])
 
