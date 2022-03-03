@@ -2,7 +2,7 @@
   "name": "weather-app",
   "version": "1.0.0",
   "description": "My React Weather app using Google Maps and NASA API's",
-  "main": "index.tsx",
+  "main": "index.html",
   "browserslist": [
     "> 0.2%",
     "not dead"
