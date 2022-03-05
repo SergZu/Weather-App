@@ -3,7 +3,6 @@ import classes from './SearchModal.module.css'
 import { WeatherApiResponse } from './App'
 import SimpleBtn from '../UI/SimpleBtn/SimpleBtn'
 import SearchForm from './SearchForm'
-import Alert from '../UI/Alert/Alert'
 import WeatherService from '../Api/WeatherService'
 
 export interface SearchModalProps{
@@ -81,14 +80,32 @@ const SearchModal = ({closeModal, addLocation}) => {
     }
 
     return (
-        <div className={classes.modal} onClick={offclickHandler} >
-            {geoError && <Alert text={geoError} />}
+        <div 
+            className={classes.modal} 
+            onClick={offclickHandler} 
+        >
+            {!!geoError && (<h4>
+                              {geoError}
+                          </h4>)
+            }
                 <div className={classes.searchForm}>
                 <div className={classes.searchContainer}>
-                    <button className={classes.geoBtn} onClick={onGeoClickHandler}>Use my geoposition</button>
-                    <SearchForm addLocation={addLocation} closeModal={closeModal} />
+                    <button 
+                            className={classes.geoBtn} 
+                            onClick={onGeoClickHandler}>
+                        Use my geoposition
+                    </button>
+                    <SearchForm 
+                                addLocation={addLocation} 
+                                closeModal={closeModal} 
+                    />
                 </div>
-                <SimpleBtn className={'closeBtn'} onclickHandler={closeModal}>&#10008;</SimpleBtn>
+                <SimpleBtn 
+                            className={'closeBtn'} 
+                            onclickHandler={closeModal}
+                >
+                    &#10008;
+                </SimpleBtn>
             </div>
             
         </div>

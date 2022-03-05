@@ -14,7 +14,11 @@ export interface WeatherProps {
 
 
 
-const Weather = function Weather({location, data, currentTime} : WeatherProps) {
+const Weather = function Weather({
+                                    location, 
+                                    data, 
+                                    currentTime
+                                } : WeatherProps) {
     const displayData = {
         temp : data.list[0].main.temp,
         weather : data.list[0].weather.main,
@@ -29,7 +33,10 @@ const Weather = function Weather({location, data, currentTime} : WeatherProps) {
     const forecastData = data.list.slice(1); 
     return (
         <div className={classes.weatherBlock}>
-           <WeatherDisplay data={displayData} currentTime={currentTime} />
+           <WeatherDisplay 
+                            data={displayData} 
+                            currentTime={currentTime} 
+           />
             <WeatherForecast data={forecastData} />
         </div>
     )

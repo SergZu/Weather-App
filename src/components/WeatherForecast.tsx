@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import ForecastElement from './ForecastElement';
 import { WeatherType } from './App'
 import classes from './WeatherForecast.module.css'

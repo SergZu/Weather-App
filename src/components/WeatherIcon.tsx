@@ -15,8 +15,14 @@ export interface weatherIcon {
     isNight : boolean;
 }
 
-type weatherIconType = 'CLEAR_NIGHT' | 'CLEAR_DAY' | 'PARTLY_CLOUDY_NIGHT' | 'PARTLY_CLOUDY_DAY' | 'FOG' | 'SNOW' | 
-                        'RAIN' | 'CLOUDY';
+type weatherIconType =  'CLEAR_NIGHT' | 
+                        'CLEAR_DAY' | 
+                        'PARTLY_CLOUDY_NIGHT' | 
+                        'PARTLY_CLOUDY_DAY' | 
+                        'FOG' | 
+                        'SNOW' | 
+                        'RAIN' | 
+                        'CLOUDY';
 
 const WeatherIcon = ({type, isNight} : weatherIcon) => {
 
@@ -25,10 +31,10 @@ const WeatherIcon = ({type, isNight} : weatherIcon) => {
     return (
         <div className={classes['icon-container']}>
            <ReactAnimatedWeather
-            icon={wicon}
-            color={defaults.color}
-            size={defaults.size}
-            animate={defaults.animate}
+                                icon={wicon}
+                                color={defaults.color}
+                                size={defaults.size}
+                                animate={defaults.animate}
             /> 
         </div>
     )

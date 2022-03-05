@@ -11,7 +11,13 @@ export interface locationProps {
     currentLocation : string;
 }
 
-const Dashboard = ({list, addLocation, deleteLocation, changeCurrentLocation, currentLocation } : locationProps) => {
+const Dashboard = ({
+                        list, 
+                        addLocation, 
+                        deleteLocation, 
+                        changeCurrentLocation, 
+                        currentLocation 
+                    } : locationProps) => {
   
     return (
         <div className={classes.dashboardContainer}>

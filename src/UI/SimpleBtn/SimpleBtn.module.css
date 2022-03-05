@@ -39,6 +39,10 @@
     }
     .btn:active {
         transform: translate(3px, 3px);
+    }
+    .small {
+        width: 15px;
+        height: 15px;
     }   
 }
 
@@ -47,6 +51,8 @@
         width: 30px;
         height: 30px;
     }
+    .small {
+        width: 15px;
+        height: 15px;
+    }
 }
-
-

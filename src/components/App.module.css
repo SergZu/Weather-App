@@ -2,6 +2,10 @@
    --app-height: 100vh; 
 }
 
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 html {
     min-height: var(--app-height);
     font-size: 10px;
@@ -29,6 +33,7 @@ html {
     min-height: var(--app-height);
     display: grid;
     gap: 1rem;
+    -ms-grid-columns: 3fr 1fr;
     grid-template-columns: 3fr 1fr;
     border-radius: 10px;
 }
@@ -38,7 +43,7 @@ html {
 }
 
 .clearSkyBackground {
-    background-image: url('../assets/daytime-background-min.png');
+    background-image: url('../assets/daytime-background-min.jpg');
 }
 
 .nightBackground {
@@ -61,6 +66,15 @@ html {
     color: #ccc;
     font-size: 2.5rem;
     font-weight: bold;
+}
+
+@media screen and (max-width: 480px) {
+    html {
+        font-size: 10px;
+    }
+    .appContainer {
+        width: 100%;
+    } 
 }
 
 
@@ -89,7 +103,8 @@ html {
     }
     
     .clearSkyBackground {
-        background-image: url('../assets/daytime-background-med.png');
+        background-image: url('../assets/daytime-background-med.jpg');
+        opacity: 0.85;
     }
     
     .nightBackground {

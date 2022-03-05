@@ -32,14 +32,20 @@ const WeatherDisplay = ({data, currentTime} : DisplayProps) => {
                 <span className={classes.displayLocation}>
                     {data.location}
                 </span>
-                <CurrentDate currentTime={currentTime} offset={data.offset} />                        
+                <CurrentDate 
+                            currentTime={currentTime} 
+                            offset={data.offset} 
+                />                        
             </div>
             <div className={classes.displayWeather}>
                 <span className={classes.displayTemp}>
                     {data.temp}&deg;
                 </span>
                 <span className={classes.displayWeather}>
-                    <WeatherIcon type={data.weather} isNight={isNight} />
+                    <WeatherIcon 
+                                type={data.weather} 
+                                isNight={isNight} 
+                    />
                 </span>
                 <span className={classes.displayWind}>
                     {`Wind : ${data.wind.speed}m/s ${computeDirection(data.wind.deg)}`}

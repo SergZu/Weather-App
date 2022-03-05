@@ -14,7 +14,13 @@ export interface LocationMenuProps {
     currentLocation : string;
 }
 
-const LocationsMenu = ({list, addLocation, deleteLocation, changeCurrentLocation, currentLocation} : LocationMenuProps) => {
+const LocationsMenu = ({
+                        list, 
+                        addLocation, 
+                        deleteLocation, 
+                        changeCurrentLocation, 
+                        currentLocation
+                       } : LocationMenuProps) => {
     const [isModalOpen, toggleModal] = useState(false);
     const [deleteMode, toggleDeleteMode] = useState(false);
 
@@ -47,7 +53,11 @@ const LocationsMenu = ({list, addLocation, deleteLocation, changeCurrentLocation
    
     return (
         <div className={classes.locationsBoard}>            
-            {isModalOpen && (<SearchModal closeModal={closeModal} addLocation={addLocation} /> )}
+            {isModalOpen && (<SearchModal 
+                                closeModal={closeModal} 
+                                addLocation={addLocation} 
+                             /> )
+            }
             <ul className={classes.locationList}>
                 <TransitionGroup >
                     {
@@ -73,12 +83,14 @@ const LocationsMenu = ({list, addLocation, deleteLocation, changeCurrentLocation
                                     {`${elem.name} : ${elem.temp !== undefined ? elem.temp  : 'N/A'}`}
                                     {(elem.temp !== undefined) && (<>&deg;</>)}
                                 </span>
-                                <SimpleBtn className={'small'} hidden={!deleteMode} 
-                                    onclickHandler={(evt) => {
-                                        evt.stopPropagation();
-                                        deleteLocation(elem.name);
-                                        } 
-                                }>
+                                <SimpleBtn 
+                                            className={'small'} 
+                                            hidden={!deleteMode} 
+                                            onclickHandler={(evt) => {
+                                                    evt.stopPropagation();
+                                                    deleteLocation(elem.name);
+                                                    } 
+                                            }>
                                     &minus;
                                 </SimpleBtn>
                             </li>
@@ -87,8 +99,18 @@ const LocationsMenu = ({list, addLocation, deleteLocation, changeCurrentLocation
                 </TransitionGroup>
             </ul>
             <div className={classes.btnBlock}>
-                <SimpleBtn hidden={false} onclickHandler={openModal} >&#43;</SimpleBtn>
-                <SimpleBtn hidden={false} onclickHandler={toggleDelete}>&#10007;</SimpleBtn>
+                <SimpleBtn 
+                            hidden={false} 
+                            onclickHandler={openModal} 
+                >
+                    &#43;
+                </SimpleBtn>
+                <SimpleBtn 
+                            hidden={false} 
+                            onclickHandler={toggleDelete}
+                >
+                    &#10007;
+                </SimpleBtn>
             </div>
         </div>
     )

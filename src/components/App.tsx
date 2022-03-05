@@ -131,7 +131,11 @@ const App = () => {
 
     const addLocation = (locationWeather : WeatherApiResponse) : void => {
             const locName = locationWeather.city.name;
-            const locInfo : Location = {name : locName, lat : locationWeather.lat, lon : locationWeather.lon};
+            const locInfo : Location = {
+                                            name : locName, 
+                                            lat : locationWeather.lat, 
+                                            lon : locationWeather.lon
+                                        };
             if (weatherData.hasOwnProperty(locName)) return
 
             const locations = createLocationsList(weatherData);
@@ -212,10 +216,12 @@ const App = () => {
                             isWeatherLoading ? 
                                                 <Spinner />
                                             :   <ErrorBoundary>
-                                                    <Weather  data={ weatherData[currentLocation] } 
+                                                    <Weather  
+                                                              data={ weatherData[currentLocation] } 
                                                               location={currentLocation} 
                                                               currentTime={currentTime} />
-                                                    <Dashboard list={tempArray()} 
+                                                    <Dashboard 
+                                                               list={tempArray()} 
                                                                addLocation={addLocation} 
                                                                deleteLocation={deleteLocation} 
                                                                changeCurrentLocation={changeCurrentLocation} 

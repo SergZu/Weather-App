@@ -54,7 +54,10 @@ const SearchForm = ({addLocation, closeModal} : SearchFormProps) => {
     }
 
     const responseLayout = responseData?.map((data) => (
-        <li key={`${data.name}${data.lat}` } className={classes['locationSearch-ListItem']}>
+        <li 
+            key={`${data.name}${data.lat}` } 
+            className={classes['locationSearch-ListItem']}
+        >
             <h3 className={classes['locationSearch-LocationName']}>
                 {`Name : ${data.name}`}
             </h3>
@@ -78,8 +81,17 @@ const SearchForm = ({addLocation, closeModal} : SearchFormProps) => {
     return (
         <div className={classes.searchContainer}>
            <form className={classes.locationSearch}>
-                <input ref={searchInput} className={classes['locationSearch-Input']} />
-                <button onClick={searchLocation} className={classes['locationSearch-Btn']}>Search</button>   
+                <input 
+                        ref={searchInput} 
+                        className={classes['locationSearch-Input']}
+                        placeholder='Search location' 
+                />
+                <button 
+                        onClick={searchLocation} 
+                        className={classes['locationSearch-Btn']}
+                >
+                    Search
+                </button>   
             </form>
             <>
                 {errorLocation && (<h3 className={classes.textCenter}>{errorLocation}</h3>)}
